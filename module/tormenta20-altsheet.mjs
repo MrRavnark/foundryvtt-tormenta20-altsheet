@@ -26,26 +26,33 @@ class Tormenta20AltSheet extends ActorSheet {
     getData() {
         const data = super.getData(); 
 
-        // Adicione aqui os dados específicos do seu sistema Tormenta20
-        // Ex: data.sistemaT20 = this.actor.system;
-        // Ex: data.isOwner = this.actor.isOwner; // Já disponível em data.owner
-
-        // Determine a classe do tema ativo com base no ID da ficha selecionada
-        // e atribua à data.actor.system para ser acessível no HBS.
+        // --- Lógica para aplicar o tema ---
         let selectedThemeId = "default"; // Tema padrão caso nada seja selecionado ou reconhecido
 
+        // O ID da ficha ativa (this.options.id) é como sabemos qual ficha Dark/Light foi selecionada.
         if (this.options.id === "tormenta20-altsheet-dark") {
             selectedThemeId = "dark";
         } else if (this.options.id === "tormenta20-altsheet-light") {
             selectedThemeId = "light";
         }
 
-        // Garante que CONFIG.tormenta20AltSheet.themes está definido
+        // Atribui a classe CSS do tema à raiz do objeto de dados (data.actor.system)
+        // para que o HBS possa usá-la na classe da tag <form>.
+        // Ex: <form class="t20as-sheet {{cssClass}} {{actor.system.activeThemeClass}}" ...>
         if (CONFIG.tormenta20AltSheet && CONFIG.tormenta20AltSheet.themes && CONFIG.tormenta20AltSheet.themes[selectedThemeId]) {
             data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes[selectedThemeId].cssClass;
         } else {
+            // Fallback para o tema padrão se algo der errado
             data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes.default.cssClass;
         }
+
+        // --- Puxando dados do sistema Tormenta20 ---
+        // A maioria dos dados de personagem está em data.actor.system
+        // Vamos simplificar o acesso a eles para o HBS.
+        data.t20 = data.actor.system; // Torna os dados do sistema acessíveis como 't20' no HBS
+        data.atributos = data.t20.attributes; // Ex: data.atributos.for.value
+        data.detalhes = data.t20.details; // Ex: data.detalhes.raca.value
+        data.pericias = data.t20.skills; // Ex: data.pericias.acrobacia.value
 
         return data;
     }
