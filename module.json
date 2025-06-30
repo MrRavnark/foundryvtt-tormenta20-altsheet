@@ -1,0 +1,45 @@
+{
+  "id": "tormenta20-altsheet",
+  "title": "Tormenta20 Ficha Alternativa",
+  "description": "Uma ficha de personagem alternativa e moderna para o sistema Tormenta20 no FoundryVTT, inspirada nos designs do Crucible e D&D 5e.",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "MrRavnark",
+      "email": "thgmgk@gmail.com",
+      "discord": "MrRavnark"
+    }
+  ],
+  "esmodules": ["module/tormenta20-altsheet.mjs"],
+  "styles": ["css/tormenta20-altsheet.css"],
+  "languages": [
+    {
+      "lang": "pt-BR",
+      "name": "Português (Brasil)",
+      "path": "lang/pt-BR.json"
+    },
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "compatibility": {
+    "minimum": "11",
+    "verified": "11.315"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "tormenta20",
+        "type": "system",
+        "compatibility": {
+          "minimum": "1.0.0"
+        }
+      }
+    ]
+  },
+  "url": "https://github.com/MrRavnark/foundryvtt-tormenta20-altsheet",
+  "manifest": "https://raw.githubusercontent.com/MrRavnark/foundryvtt-tormenta20-altsheet/main/module.json",
+  "download": "https://github.com/MrRavnark/foundryvtt-tormenta20-altsheet/releases/latest/download/tormenta20-altsheet.zip"
+}
