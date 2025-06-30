@@ -25,22 +25,24 @@ class Tormenta20AltSheet extends ActorSheet {
      */
     getData() {
         const data = super.getData(); 
-        // Adiciona aqui os dados específicos do seu sistema Tormenta20
+
+        // Adicione aqui os dados específicos do seu sistema Tormenta20
         // Ex: data.sistemaT20 = this.actor.system;
         // Ex: data.isOwner = this.actor.isOwner; // Já disponível em data.owner
 
-        // Para aplicar o tema dinamicamente via JS (ex: nas configurações do módulo)
-        // if (game.settings.get("tormenta20-altsheet", "sheetTheme")) {
-        //     data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes[game.settings.get("tormenta20-altsheet", "sheetTheme")].cssClass;
-        // } else {
-        //     data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes.default.cssClass;
-        // }
+        // Determine a classe do tema ativo com base no ID da ficha selecionada
+        // e atribua à data.actor.system para ser acessível no HBS.
+        let selectedThemeId = "default"; // Tema padrão caso nada seja selecionado ou reconhecido
 
-        // Para testar os temas agora e ter classes diferentes baseadas na ficha selecionada:
         if (this.options.id === "tormenta20-altsheet-dark") {
-            data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes.dark.cssClass;
+            selectedThemeId = "dark";
         } else if (this.options.id === "tormenta20-altsheet-light") {
-            data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes.light.cssClass;
+            selectedThemeId = "light";
+        }
+
+        // Garante que CONFIG.tormenta20AltSheet.themes está definido
+        if (CONFIG.tormenta20AltSheet && CONFIG.tormenta20AltSheet.themes && CONFIG.tormenta20AltSheet.themes[selectedThemeId]) {
+            data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes[selectedThemeId].cssClass;
         } else {
             data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes.default.cssClass;
         }
