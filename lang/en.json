@@ -1,1 +1,10 @@
-{}
+{
+  "T20AS.CharacterSheetLabelDark": "Alternative Sheet T20 Dark",
+  "T20AS.CharacterSheetLabelLight": "Alternative Sheet T20 Light",
+  "T20AS.NPCSheetLabel": "MrRavnark's NPC Sheet",
+  "T20AS.Themes.Default": "Default (Original T20)",
+  "T20AS.Themes.Light": "Light (Crucible Inspired)",
+  "T20AS.Themes.Dark": "Dark (Crucible Inspired)",
+  "T20AS.SettingTheme": "Sheet Theme",
+  "T20AS.SettingThemeHint": "Choose the visual theme for the Character Sheet."
+}

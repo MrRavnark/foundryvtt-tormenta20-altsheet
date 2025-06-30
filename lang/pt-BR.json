@@ -1,1 +1,10 @@
-{}
+{
+  "T20AS.CharacterSheetLabelDark": "Ficha Alternativa T20 Dark",
+  "T20AS.CharacterSheetLabelLight": "Ficha Alternativa T20 Light",
+  "T20AS.NPCSheetLabel": "Ficha de NPC MrRavnark",
+  "T20AS.Themes.Default": "Padrão (T20 Original)",
+  "T20AS.Themes.Light": "Claro (Inspirado Crucible)",
+  "T20AS.Themes.Dark": "Escuro (Inspirado Crucible)",
+  "T20AS.SettingTheme": "Tema da Ficha",
+  "T20AS.SettingThemeHint": "Escolha o tema visual da Ficha de Personagem."
+}
