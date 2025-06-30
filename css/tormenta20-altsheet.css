@@ -18,7 +18,7 @@
 }
 
 /* Tema Escuro (ativado pela classe .theme-dark) */
-.tormenta20-altsheet.theme-dark {
+.t20as-sheet.theme-dark {
     --t20as-color-primary: #eee8df; /* Texto claro */
     --t20as-color-secondary: #d7c4a9; /* Texto secundário */
     --t20as-color-background: #0b0909; /* Fundo principal escuro */
@@ -34,7 +34,7 @@
 }
 
 /* Tema Claro (ativado pela classe .theme-light) */
-.tormenta20-altsheet.theme-light {
+.t20as-sheet.theme-light {
     --t20as-color-primary: #000000;
     --t20as-color-secondary: #0b0909;
     --t20as-color-background: #cac5ba;
@@ -49,44 +49,57 @@
     --t20as-color-rollable-hover: #5c9bab;
 }
 
-
 /* Estilos Gerais da Ficha */
-.tormenta20-altsheet.sheet {
-    font-family: "Signika", sans-serif;
+.t20as-sheet.sheet {
+    font-family: "Signika", sans-serif; /* Certifique-se de que a fonte Signika esteja carregada no Foundry */
     color: var(--t20as-color-primary);
     background: var(--t20as-color-background);
-    border: 1px solid var(--t20as-color-border);
-    border-radius: 5px;
-    overflow: hidden; /* Garante que o conteúdo não vaze */
+    border: 2px solid var(--t20as-color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column; /* Organiza cabeçalho e corpo em coluna */
 }
 
 /* Cabeçalho da Ficha */
-.tormenta20-altsheet .sheet-header {
+.t20as-sheet .sheet-header {
+    display: flex;
+    flex-direction: column; /* Header dividido em top e attributes */
+    padding: 10px;
+    background: var(--t20as-color-header-bg);
+    border-bottom: 2px solid var(--t20as-color-border);
+}
+
+.t20as-sheet .header-section {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 10px;
-    background: var(--t20as-color-header-bg);
-    border-bottom: 1px solid var(--t20as-color-border);
+    width: 100%;
+    gap: 15px; /* Espaço entre seções do header */
+    margin-bottom: 10px;
 }
 
-.tormenta20-altsheet .sheet-header .profile-img {
-    flex: 0 0 100px; /* Tamanho fixo para a imagem */
+.t20as-sheet .header-section:last-child {
+    margin-bottom: 0;
+}
+
+.t20as-sheet .profile-img {
+    flex: 0 0 100px;
     height: 100px;
-    margin-right: 15px;
     border: 2px solid var(--t20as-color-border);
     border-radius: 5px;
-    object-fit: cover; /* Garante que a imagem preencha o espaço */
+    object-fit: cover;
+    box-shadow: 0 0 5px var(--t20as-color-box-shadow);
 }
 
-.tormenta20-altsheet .sheet-header .header-details {
-    flex: 1; /* Ocupa o espaço restante */
+.t20as-sheet .header-details {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 5px; /* Espaço entre os elementos do cabeçalho */
+    gap: 5px;
 }
 
-.tormenta20-altsheet .sheet-header .charname input {
+.t20as-sheet .charname input {
     font-size: 2em;
     font-weight: bold;
     color: var(--t20as-color-primary);
@@ -94,101 +107,174 @@
     border: 1px solid var(--t20as-color-border);
     padding: 5px;
     width: 100%;
+    border-radius: 4px;
 }
 
-.tormenta20-altsheet .sheet-header .summary input {
+.t20as-sheet .summary-details {
+    display: flex;
+    flex-wrap: wrap; /* Permite quebrar linha se não houver espaço */
+    gap: 10px;
+}
+
+.t20as-sheet .summary-details input {
+    flex: 1; /* Inputs ocupam espaço disponível */
+    min-width: 100px; /* Largura mínima para inputs de sumário */
     font-size: 0.9em;
     color: var(--t20as-color-secondary);
     background: var(--t20as-color-input-bg);
     border: 1px solid var(--t20as-color-border);
     padding: 3px;
-    margin-right: 5px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.t20as-sheet .header-attributes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around; /* Distribui os atributos */
+    align-items: center;
+    width: 100%;
+    margin-top: 10px; /* Espaço entre top e attributes */
+    padding-top: 10px;
+    border-top: 1px solid var(--t20as-color-border);
+}
+
+.t20as-sheet .attribute-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border: 1px solid var(--t20as-color-border);
+    border-radius: 5px;
+    background: var(--t20as-color-input-bg);
+}
+
+.t20as-sheet .attribute-box label {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: var(--t20as-color-primary);
+}
+
+.t20as-sheet .attribute-box input {
+    font-size: 1.5em;
+    width: 60px;
+    text-align: center;
+    background: none; /* Remove fundo padrão do input-bg para o valor */
+    border: none;
+    color: var(--t20as-color-accent); /* Destaque para valores */
+}
+.t20as-sheet .attribute-box.pv-pm input {
+    width: 40px; /* Menor para PV/PM */
+}
+.t20as-sheet .attribute-box.pv-pm span {
+    font-size: 1.5em;
+    color: var(--t20as-color-primary);
 }
 
 /* Corpo da Ficha (abas e conteúdo) */
-.tormenta20-altsheet .sheet-body {
+.t20as-sheet .sheet-body {
+    flex: 1; /* Ocupa o espaço restante da altura da ficha */
     display: flex;
-    flex-direction: column; /* As abas e o conteúdo principal empilham */
-    height: calc(100% - 120px); /* Ajusta a altura considerando o cabeçalho */
+    flex-direction: column;
     padding: 10px;
+    overflow: hidden; /* Gerencia o overflow do corpo */
 }
 
-.tormenta20-altsheet .sheet-body .sheet-tabs {
-    display: flex; /* As abas de navegação ficam em linha */
-    flex-direction: row; /* Coloca as abas horizontalmente por enquanto */
+.t20as-sheet .sheet-body .sheet-tabs {
+    display: flex;
+    flex-direction: row; /* Abas horizontais por enquanto */
     justify-content: flex-start;
-    align-items: flex-end; /* Alinha as abas na parte inferior */
+    align-items: flex-end;
     margin-bottom: 10px;
-    border-bottom: 1px solid var(--t20as-color-border); /* Borda abaixo das abas */
+    border-bottom: 2px solid var(--t20as-color-border);
+    flex-wrap: wrap; /* Permite que as abas quebrem a linha se não houver espaço */
 }
 
-.tormenta20-altsheet .sheet-body .sheet-tabs .item {
-    padding: 5px 15px;
+.t20as-sheet .sheet-body .sheet-tabs .item {
+    padding: 8px 15px;
     cursor: pointer;
-    border: 1px solid transparent;
+    border: 1px solid var(--t20as-color-border);
     border-bottom: none;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
     color: var(--t20as-color-secondary);
     font-weight: bold;
     text-transform: uppercase;
     font-size: 0.9em;
+    background: var(--t20as-color-input-bg);
+    margin-right: 2px;
+    transition: all 0.2s ease-in-out; /* Transição suave */
 }
 
-.tormenta20-altsheet .sheet-body .sheet-tabs .item.active {
+.t20as-sheet .sheet-body .sheet-tabs .item.active {
     background: var(--t20as-color-background);
-    border: 1px solid var(--t20as-color-border);
-    border-bottom: none;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    border-color: var(--t20as-color-accent);
+    border-bottom-color: var(--t20as-color-background); /* Esconde a borda inferior na aba ativa */
     color: var(--t20as-color-primary);
+    box-shadow: inset 0 3px 0 var(--t20as-color-accent); /* Linha de destaque */
 }
 
-.tormenta20-altsheet .sheet-body .sheet-tabs .item:hover {
+.t20as-sheet .sheet-body .sheet-tabs .item:hover {
     color: var(--t20as-color-accent);
+    background: var(--t20as-color-button-hover-bg);
 }
 
 /* Conteúdo das Abas */
-.tormenta20-altsheet .sheet-body .tab {
-    flex: 1; /* Conteúdo da aba ocupa o espaço restante */
-    padding: 10px;
-    border: 1px solid var(--t20as-color-border);
-    border-radius: 5px;
-    background: var(--t20as-color-input-bg); /* Fundo leve para o conteúdo */
-    overflow-y: auto; /* Adiciona scroll se o conteúdo for grande */
+.t20as-sheet .sheet-body .tab {
+    flex: 1;
+    padding: 15px;
+    border: 2px solid var(--t20as-color-border);
+    border-radius: 8px;
+    background: var(--t20as-color-input-bg);
+    overflow-y: auto;
     display: none; /* Esconde todas as abas por padrão */
 }
 
-.tormenta20-altsheet .sheet-body .tab.active {
+.t20as-sheet .sheet-body .tab.active {
     display: block; /* Mostra apenas a aba ativa */
 }
 
+.t20as-sheet .sheet-body .tab h2 {
+    font-size: 1.5em;
+    color: var(--t20as-color-accent);
+    border-bottom: 1px solid var(--t20as-color-secondary);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
 /* Estilos para inputs em geral */
-.tormenta20-altsheet input[type="text"],
-.tormenta20-altsheet input[type="number"],
-.tormenta20-altsheet textarea {
+.t20as-sheet input[type="text"],
+.t20as-sheet input[type="number"],
+.t20as-sheet textarea {
     background-color: var(--t20as-color-input-bg);
     border: 1px solid var(--t20as-color-border);
     color: var(--t20as-color-primary);
     padding: 2px 5px;
     font-family: inherit;
     font-size: inherit;
+    border-radius: 4px;
 }
 
-.tormenta20-altsheet input[type="text"]:focus,
-.tormenta20-altsheet input[type="number"]:focus,
-.tormenta20-altsheet textarea:focus {
+.t20as-sheet input[type="text"]:focus,
+.t20as-sheet input[type="number"]:focus,
+.t20as-sheet textarea:focus {
     border-color: var(--t20as-color-accent);
     box-shadow: 0 0 5px var(--t20as-color-rollable-hover);
+    outline: none; /* Remove a borda de foco padrão do navegador */
 }
 
-.tormenta20-altsheet button {
+.t20as-sheet button {
     background-color: var(--t20as-color-button-bg);
     border: 1px solid var(--t20as-color-border);
     color: var(--t20as-color-primary);
     padding: 5px 10px;
     cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-.tormenta20-altsheet button:hover {
+.t20as-sheet button:hover {
     background-color: var(--t20as-color-button-hover-bg);
     color: var(--t20as-color-accent);
 }

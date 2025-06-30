@@ -1,13 +1,35 @@
-<form class="{{cssClass}} {{actor.system.activeThemeClass}}" autocomplete="off">
+<form class="t20as-sheet {{cssClass}} {{actor.system.activeThemeClass}}" autocomplete="off">
     {{!-- Sheet Header --}}
     <header class="sheet-header">
-        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
-        <div class="header-details">
-            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Nome do Personagem"/></h1>
-            <div class="summary">
-                <input type="text" name="system.details.raca.value" value="{{system.details.raca.value}}" placeholder="Raça"/>
-                <input type="text" name="system.details.origem.value" value="{{system.details.origem.value}}" placeholder="Origem"/>
-                <input type="text" name="system.details.classe.value" value="{{system.details.classe.value}}" placeholder="Classe"/>
+        <div class="header-section header-top">
+            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+            <div class="header-details">
+                <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Nome do Personagem"/></h1>
+                <div class="summary-details">
+                    <input type="text" name="system.details.raca.value" value="{{system.details.raca.value}}" placeholder="Raça"/>
+                    <input type="text" name="system.details.origem.value" value="{{system.details.origem.value}}" placeholder="Origem"/>
+                    <input type="text" name="system.details.classe.value" value="{{system.details.classe.value}}" placeholder="Classe"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-section header-attributes">
+            {{!-- PV, PM, Defesa e outros atributos do cabeçalho T20 vão aqui --}}
+            <div class="attribute-box pv-pm">
+                <label>PV</label>
+                <input type="number" name="system.attributes.pv.value" value="{{system.attributes.pv.value}}" placeholder="0"/>
+                <span>/</span>
+                <input type="number" name="system.attributes.pv.max" value="{{system.attributes.pv.max}}" placeholder="0"/>
+            </div>
+             <div class="attribute-box pv-pm">
+                <label>PM</label>
+                <input type="number" name="system.attributes.pm.value" value="{{system.attributes.pm.value}}" placeholder="0"/>
+                <span>/</span>
+                <input type="number" name="system.attributes.pm.max" value="{{system.attributes.pm.max}}" placeholder="0"/>
+            </div>
+            <div class="attribute-box defense">
+                <label>Defesa</label>
+                <input type="number" name="system.attributes.defesa.value" value="{{system.attributes.defesa.value}}" placeholder="0"/>
             </div>
         </div>
     </header>
@@ -15,24 +37,28 @@
     {{!-- Sheet Body --}}
     <section class="sheet-body">
         <nav class="sheet-tabs tabs" data-group="primary">
-            {{!-- As abas estarão aqui (Detalhes, Inventário, Poderes, etc.) --}}
-            <a class="item active" data-tab="detalhes">{{ localize "T20AS.Themes.Default" }}</a>
-            <a class="item" data-tab="inventario">Inventário</a>
+            <a class="item active" data-tab="detalhes">{{ localize "T20AS.CharacterSheetLabelDark" }}</a> {{!-- Usando Dark label para a primeira aba por enquanto --}}
+            <a class="item" data-tab="inventario">{{ localize "PF1.Inventory" }}</a> {{!-- Reutilizando PF1.Inventory por enquanto --}}
             <a class="item" data-tab="poderes">Poderes</a>
         </nav>
 
         {{!-- Conteúdo das Abas --}}
         <div class="tab" data-group="primary" data-tab="detalhes">
-            <p>Conteúdo da aba Detalhes vai aqui!</p>
-            <p>PV: {{system.attributes.pv.value}} / {{system.attributes.pv.max}}</p>
-            <p>O ID da ficha é: {{this.options.id}}</p>
-            <p>Classe do Tema Ativo: {{actor.system.activeThemeClass}}</p>
+            <h2>Detalhes do Personagem</h2>
+            <p>O ID da ficha é: <strong>{{this.options.id}}</strong></p>
+            <p>Classe do Tema Ativo: <strong>{{actor.system.activeThemeClass}}</strong></p>
+            <p>Este é o conteúdo inicial da aba de detalhes.</p>
+            <p>Aqui colocaremos os atributos principais e perícias.</p>
         </div>
         <div class="tab" data-group="primary" data-tab="inventario">
-            <p>Conteúdo da aba Inventário vai aqui!</p>
+            <h2>Inventário</h2>
+            <p>Esta é a aba de inventário.</p>
+            <p>Aqui você listará seus equipamentos, armas e itens.</p>
         </div>
         <div class="tab" data-group="primary" data-tab="poderes">
-            <p>Conteúdo da aba Poderes vai aqui!</p>
+            <h2>Poderes e Habilidades</h2>
+            <p>Esta é a aba de poderes.</p>
+            <p>Aqui você listará seus talentos, magias e habilidades de classe/raça.</p>
         </div>
     </section>
 </form>
