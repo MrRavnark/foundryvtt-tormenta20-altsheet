@@ -40,5 +40,6 @@
     ]
   },
   "url": "https://github.com/MrRavnark/foundryvtt-tormenta20-altsheet",
-  "manifest": "https://raw.githubusercontent.com/MrRavnark/foundryvtt-tormenta20-altsheet/main/module.json"
+  "manifest": "https://raw.githubusercontent.com/MrRavnark/foundryvtt-tormenta20-altsheet/main/module.json",
+  "download": "Shttps://github.com/MrRavnark/foundryvtt-tormenta20-altsheet/releases/download/v0.0.1/foundryvtt-tormenta20-altsheet.zip" 
 }
