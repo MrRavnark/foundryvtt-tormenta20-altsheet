@@ -27,32 +27,78 @@ class Tormenta20AltSheet extends ActorSheet {
         const data = super.getData(); 
 
         // --- Lógica para aplicar o tema ---
-        let selectedThemeId = "default"; // Tema padrão caso nada seja selecionado ou reconhecido
-
-        // O ID da ficha ativa (this.options.id) é como sabemos qual ficha Dark/Light foi selecionada.
+        let selectedThemeId = "default"; 
         if (this.options.id === "tormenta20-altsheet-dark") {
             selectedThemeId = "dark";
         } else if (this.options.id === "tormenta20-altsheet-light") {
             selectedThemeId = "light";
         }
 
-        // Atribui a classe CSS do tema à raiz do objeto de dados (data.actor.system)
-        // para que o HBS possa usá-la na classe da tag <form>.
-        // Ex: <form class="t20as-sheet {{cssClass}} {{actor.system.activeThemeClass}}" ...>
         if (CONFIG.tormenta20AltSheet && CONFIG.tormenta20AltSheet.themes && CONFIG.tormenta20AltSheet.themes[selectedThemeId]) {
             data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes[selectedThemeId].cssClass;
         } else {
-            // Fallback para o tema padrão se algo der errado
             data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes.default.cssClass;
         }
 
-        // --- Puxando dados do sistema Tormenta20 ---
-        // A maioria dos dados de personagem está em data.actor.system
-        // Vamos simplificar o acesso a eles para o HBS.
-        data.t20 = data.actor.system; // Torna os dados do sistema acessíveis como 't20' no HBS
-        data.atributos = data.t20.attributes; // Ex: data.atributos.for.value
-        data.detalhes = data.t20.details; // Ex: data.detalhes.raca.value
-        data.pericias = data.t20.skills; // Ex: data.pericias.acrobacia.value
+        // --- Puxando dados do sistema Tormenta20 (FOCO AQUI!) ---
+        // Usando os caminhos DEFINITIVOS do arquivo de configuração T20 e do system.json
+        const systemData = data.actor.system; // Referência para facilitar o acesso
+
+        // Passa o objeto T20 global para o HBS para acessar labels e definições
+        data.T20 = globalThis.T20; 
+
+        // Detalhes do Personagem (Raça, Origem, Classe)
+        data.detalhes = {
+            raca: systemData.details?.raca?.value || "", 
+            origem: systemData.details?.origem?.value || "",
+            classe: systemData.details?.classe?.value || "" 
+        };
+
+        // Atributos (FOR, DES, CON, INT, SAB, CAR, PV, PM, Defesa)
+        // Combinando a definição do T20.atributos com os valores do ator
+        data.atributos = {};
+        for (const key in globalThis.T20.atributos) { // Itera sobre FOR, DES, CON, etc.
+            const attrDef = globalThis.T20.atributos[key];
+            const attrData = systemData.attributes?.[key] || {};
+            data.atributos[key] = {
+                label: attrDef, // Ex: "T20.AbilityStr"
+                value: attrData.value || 0,
+                mod: attrData.mod || 0
+            };
+        }
+        // Adiciona PV, PM, Defesa diretamente
+        data.atributos.pv = systemData.attributes?.pv || { value: 0, max: 0 };
+        data.atributos.pm = systemData.attributes?.pm || { value: 0, max: 0 };
+        data.atributos.defesa = systemData.attributes?.defesa || { value: 0 };
+
+        // Perícias
+        // Combinando a definição do T20.pericias com os valores do ator
+        data.pericias = {};
+        for (const key in globalThis.T20.pericias) { // Itera sobre acro, ades, etc.
+            const periciaDef = globalThis.T20.pericias[key];
+            const periciaData = systemData.skills?.[key] || {};
+            data.pericias[key] = {
+                label: periciaDef.label, // Ex: "T20.SkillAcro"
+                value: periciaData.value || 0,
+                mod: periciaData.mod || 0,
+                bonus: periciaData.bonus || 0 // Puxa o bônus também
+            };
+        }
+
+        // Outras características (Tamanho, Deslocamento, Resistências, Imunidade, Sentidos)
+        data.caracteristicas = {
+            tamanho: systemData.details?.tamanho?.value || "", 
+            deslocamento: systemData.attributes?.deslocamento?.value || "", 
+            resistencias: systemData.resistencias || {}, 
+            imunidades: systemData.imunidades || {}, 
+            sentidos: systemData.sentidos || {} 
+        };
+
+        // Proficiências
+        data.proficiencias = {
+            armas: systemData.proficiencias?.armas || {}, 
+            armaduras: systemData.proficiencias?.armaduras || {} 
+        };
 
         return data;
     }
