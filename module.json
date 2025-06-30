@@ -1,45 +1,147 @@
-{
-  "id": "tormenta20-altsheet",
-  "title": "Tormenta20 Ficha Alternativa",
-  "description": "Uma ficha de personagem alternativa e moderna para o sistema Tormenta20 no FoundryVTT, inspirada nos designs do Crucible e D&D 5e.",
-  "version": "0.0.1",
-  "authors": [
-    {
-      "name": "MrRavnark",
-      "email": "thgmgk@gmail.com",
-      "discord": "MrRavnark"
+// Define a classe da sua ficha alternativa, estendendo a classe base ActorSheet do Foundry.
+// Usaremos essa classe mais tarde para adicionar toda a lógica e comportamento da ficha.
+class Tormenta20AltSheet extends ActorSheet {
+    /**
+     * Retorna as opções padrão da ficha.
+     * Você pode definir o nome do template HTML aqui, ou em métodos posteriores.
+     * A largura e altura mínimas são definidas aqui.
+     */
+    static get defaultOptions() {
+        return mergeObject(super.defaultOptions, {
+            classes: ["tormenta20-altsheet", "sheet", "actor"], // Classes CSS para a ficha
+            template: "modules/tormenta20-altsheet/templates/tormenta20-altsheet.hbs", // Caminho para o template HBS principal da ficha
+            width: 900, // Largura padrão da ficha
+            height: 700, // Altura padrão da ficha
+            tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes" }], // Configurações para abas, se você tiver
+        });
     }
-  ],
-  "esmodules": ["module/tormenta20-altsheet.mjs"],
-  "styles": ["css/tormenta20-altsheet.css"],
-  "languages": [
-    {
-      "lang": "pt-BR",
-      "name": "Português (Brasil)",
-      "path": "lang/pt-BR.json"
-    },
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
+
+    /**
+     * Prepara os dados a serem enviados para o template HBS.
+     * Este método será usado para organizar os dados do ator para exibição.
+     */
+    getData() {
+        const data = super.getData(); 
+
+        // Aqui você pode adicionar ou modificar dados para seu template HBS
+        // Exemplo: data.myData = "Algum dado extra";
+
+        // Adiciona o tema selecionado como uma classe CSS para o HBS
+        // data.actor.system.sheetTheme = game.settings.get("tormenta20-altsheet", "sheetTheme");
+        // Para testar os temas agora, podemos forçar:
+        // if (this.options.id === "tormenta20-altsheet-dark") {
+        //     data.actor.system.sheetTheme = "dark";
+        // } else if (this.options.id === "tormenta20-altsheet-light") {
+        //     data.actor.system.sheetTheme = "light";
+        // } else {
+        //     data.actor.system.sheetTheme = "default";
+        // }
+
+        return data;
     }
-  ],
-  "compatibility": {
-    "minimum": "11",
-    "verified": "11.315"
-  },
-  "relationships": {
-    "systems": [
-      {
-        "id": "tormenta20",
-        "type": "system",
-        "compatibility": {
-          "minimum": "1.0.0"
-        }
-      }
-    ]
-  },
-  "url": "https://github.com/MrRavnark/foundryvtt-tormenta20-altsheet",
-  "manifest": "https://raw.githubusercontent.com/MrRavnark/foundryvtt-tormenta20-altsheet/main/module.json",
-  "download": "https://github.com/MrRavnark/foundryvtt-tormenta20-altsheet/releases/download/v0.0.1/foundryvtt-tormenta20-altsheet.zip" 
+
+    /**
+     * Adiciona listeners de evento à ficha.
+     * Por exemplo, para cliques em botões, rolagens de dados, etc.
+     */
+    activateListeners(html) {
+        super.activateListeners(html); 
+
+        // Aqui você pode adicionar seus próprios listeners de evento
+        // Exemplo: html.find('.my-roll-button').click(this._onMyRollButton.bind(this));
+    }
+
+    // Métodos auxiliares ou de lógica específica para sua ficha podem vir aqui
+    // _onMyRollButton(event) { ... }
 }
+
+// Hook 'init': Executa quando o Foundry é inicializado.
+// Usamos para carregar templates e registrar configurações.
+Hooks.once("init", () => {
+    console.log("tormenta20-altsheet | Inicializando Módulo de Ficha Alternativa");
+
+    const templatePaths = [
+        "modules/tormenta20-altsheet/templates/tormenta20-altsheet.hbs",
+        // Adicione aqui os caminhos para seus parciais, como:
+        // "modules/tormenta20-altsheet/templates/parts/header.hbs",
+        // "modules/tormenta20-altsheet/templates/parts/attributes.hbs",
+        // "modules/tormenta20-altsheet/templates/parts/skills.hbs",
+        // ... etc.
+    ];
+
+    loadTemplates(templatePaths);
+
+    // CONFIG.tormenta20AltSheet.themes: Define os temas que estarão disponíveis para sua ficha.
+    CONFIG.tormenta20AltSheet = {
+        themes: {
+            default: {
+                label: "T20AS.Themes.Default",
+                cssClass: "theme-default",
+            },
+            light: {
+                label: "T20AS.Themes.Light",
+                cssClass: "theme-light",
+            },
+            dark: {
+                label: "T20AS.Themes.Dark",
+                cssClass: "theme-dark",
+            },
+        },
+    };
+
+    // TODO: Registre as configurações do módulo aqui (para seleção de tema, etc.)
+    // game.settings.register("tormenta20-altsheet", "sheetTheme", {
+    //     name: "T20AS.SettingTheme", // Chave de localização
+    //     hint: "T20AS.SettingThemeHint", // Chave de localização
+    //     scope: "client",
+    //     config: true,
+    //     type: String,
+    //     choices: Object.entries(CONFIG.tormenta20AltSheet.themes).reduce((obj, [key, value]) => {
+    //         obj[key] = value.label;
+    //         return obj;
+    //     }, {}),
+    //     default: "default",
+    //     onChange: (value) => {
+    //         // Força a re-renderização das fichas abertas ao mudar o tema
+    //         for (const app of Object.values(ui.windows)) {
+    //             if (app instanceof ActorSheet && app.actor.sheet.id === "tormenta20-altsheet") { // Verifica se é a sua ficha
+    //                 app.render(true);
+    //             }
+    //         }
+    //     },
+    // });
+
+    console.log("tormenta20-altsheet | Módulo de Ficha Alternativa carregado.");
+});
+
+// Hook 'ready': Executa quando o Foundry está completamente carregado.
+// Usamos para registrar a ficha no sistema.
+Hooks.on("ready", () => {
+    console.log("tormenta20-altsheet | Registrando Fichas de Ator.");
+
+    // Registra a ficha para o tema DARK
+    DocumentSheetConfig.registerSheet(Actor, "tormenta20-altsheet-dark", Tormenta20AltSheet, {
+        label: "T20AS.CharacterSheetLabelDark", // Usa a nova chave de localização para o tema DARK
+        types: ["character"],
+        makeDefault: false, 
+    });
+
+    // Registra a ficha para o tema LIGHT
+    DocumentSheetConfig.registerSheet(Actor, "tormenta20-altsheet-light", Tormenta20AltSheet, {
+        label: "T20AS.CharacterSheetLabelLight", // Usa a nova chave de localização para o tema LIGHT
+        types: ["character"],
+        makeDefault: false, 
+    });
+
+    // Se você quiser uma ficha alternativa para NPCs, registre-a aqui também:
+    // DocumentSheetConfig.registerSheet(Actor, "tormenta20-altsheet-npc", Tormenta20AltSheetNPC, {
+    //     label: "T20AS.NPCSheetLabel",
+    //     types: ["npc"],
+    //     makeDefault: false,
+    // });
+
+    // Atualiza as fichas disponíveis no Foundry.
+    DocumentSheetConfig.updateDefaultSheets();
+
+    console.log("tormenta20-altsheet | Fichas de Ator registradas.");
+});
