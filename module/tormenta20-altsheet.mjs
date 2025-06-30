@@ -40,12 +40,9 @@ class Tormenta20AltSheet extends ActorSheet {
             data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes.default.cssClass;
         }
 
-        // --- Puxando dados do sistema Tormenta20 (FOCO AQUI!) ---
-        // Usando os caminhos DEFINITIVOS do arquivo de configuração T20 e do system.json
-        const systemData = data.actor.system; // Referência para facilitar o acesso
-
-        // Passa o objeto T20 global para o HBS para acessar labels e definições
-        data.T20 = globalThis.T20; 
+        // --- Puxando dados do sistema Tormenta20 ---
+        const systemData = data.actor.system; 
+        const T20Config = globalThis.T20; 
 
         // Detalhes do Personagem (Raça, Origem, Classe)
         data.detalhes = {
@@ -55,33 +52,31 @@ class Tormenta20AltSheet extends ActorSheet {
         };
 
         // Atributos (FOR, DES, CON, INT, SAB, CAR, PV, PM, Defesa)
-        // Combinando a definição do T20.atributos com os valores do ator
         data.atributos = {};
-        for (const key in globalThis.T20.atributos) { // Itera sobre FOR, DES, CON, etc.
-            const attrDef = globalThis.T20.atributos[key];
+        for (const key in T20Config.atributos) { 
             const attrData = systemData.attributes?.[key] || {};
             data.atributos[key] = {
-                label: attrDef, // Ex: "T20.AbilityStr"
+                id: key, 
+                label: T20Config.atributos[key], 
                 value: attrData.value || 0,
                 mod: attrData.mod || 0
             };
         }
-        // Adiciona PV, PM, Defesa diretamente
         data.atributos.pv = systemData.attributes?.pv || { value: 0, max: 0 };
         data.atributos.pm = systemData.attributes?.pm || { value: 0, max: 0 };
         data.atributos.defesa = systemData.attributes?.defesa || { value: 0 };
 
-        // Perícias
-        // Combinando a definição do T20.pericias com os valores do ator
+        // Perícias (CORREÇÃO DE LABEL AQUI)
         data.pericias = {};
-        for (const key in globalThis.T20.pericias) { // Itera sobre acro, ades, etc.
-            const periciaDef = globalThis.T20.pericias[key];
+        for (const key in T20Config.pericias) { 
+            const periciaDef = T20Config.pericias[key];
             const periciaData = systemData.skills?.[key] || {};
             data.pericias[key] = {
-                label: periciaDef.label, // Ex: "T20.SkillAcro"
+                id: key, 
+                label: periciaDef.label, // Este é o T20.SkillAcro
                 value: periciaData.value || 0,
                 mod: periciaData.mod || 0,
-                bonus: periciaData.bonus || 0 // Puxa o bônus também
+                bonus: periciaData.bonus || 0 
             };
         }
 
@@ -89,16 +84,64 @@ class Tormenta20AltSheet extends ActorSheet {
         data.caracteristicas = {
             tamanho: systemData.details?.tamanho?.value || "", 
             deslocamento: systemData.attributes?.deslocamento?.value || "", 
-            resistencias: systemData.resistencias || {}, 
-            imunidades: systemData.imunidades || {}, 
-            sentidos: systemData.sentidos || {} 
+            resistencias: {},
+            imunidades: {},
+            sentidos: {}
         };
+        for (const key in T20Config.resistencias) {
+            const resData = systemData.resistencias?.[key] || {};
+            data.caracteristicas.resistencias[key] = {
+                label: T20Config.resistencias[key],
+                value: resData.value || 0 
+            };
+        }
+         // Imunidades (assumindo que são chaves diretas em systemData.imunidades)
+         if (systemData.imunidades) {
+            for (const key in systemData.imunidades) {
+                if (systemData.imunidades[key].value) { // Se a imunidade está ativa/tem valor
+                    data.caracteristicas.imunidades[key] = {
+                        label: systemData.imunidades[key].label || key, // Puxa o label da imunidade
+                        value: systemData.imunidades[key].value
+                    };
+                }
+            }
+        }
+        // Sentidos (assumindo que são chaves diretas em systemData.sentidos)
+        if (systemData.sentidos) {
+            for (const key in systemData.sentidos) {
+                if (systemData.sentidos[key].value) { // Se o sentido está ativo/tem valor
+                    data.caracteristicas.sentidos[key] = {
+                        label: systemData.sentidos[key].label || key, // Puxa o label do sentido
+                        value: systemData.sentidos[key].value
+                    };
+                }
+            }
+        }
 
-        // Proficiências
+
+        // Proficiências (Armas e Armaduras)
         data.proficiencias = {
-            armas: systemData.proficiencias?.armas || {}, 
-            armaduras: systemData.proficiencias?.armaduras || {} 
+            armas: {},
+            armaduras: {}
         };
+        for (const key in T20Config.profArmas) {
+            const profData = systemData.proficiencias?.armas?.[key] || false; 
+            if (profData) {
+                data.proficiencias.armas[key] = {
+                    label: T20Config.profArmas[key],
+                    value: profData 
+                };
+            }
+        }
+        for (const key in T20Config.profArmaduras) {
+            const profData = systemData.proficiencias?.armaduras?.[key] || false; 
+            if (profData) {
+                data.proficiencias.armaduras[key] = {
+                    label: T20Config.profArmaduras[key],
+                    value: profData 
+                };
+            }
+        }
 
         return data;
     }

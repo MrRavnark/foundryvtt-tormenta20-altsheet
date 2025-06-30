@@ -34,14 +34,12 @@
 
             {{!-- Atributos FOR, DES, CON, INT, SAB, CAR --}}
             {{!-- Iterando sobre os atributos puxados do getData() para exibir valor base e modificador --}}
-            {{#each atributos as |attr key|}}
-            {{#unless (or (eq key "pv") (eq key "pm") (eq key "defesa"))}} {{!-- Exclui PV, PM, Defesa --}}
+            {{#each T20.atributos as |attrDef key|}} {{!-- Itera sobre a definição T20.atributos --}}
             <div class="attribute-box simple-attribute">
-                <label>{{localize attr.label}}</label> {{!-- Agora usa o label traduzido (ex: Força) --}}
-                <input type="number" name="system.attributes.{{key}}.value" value="{{attr.value}}" placeholder="0"/>
-                <span class="attribute-mod">{{attr.mod}}</span> {{!-- Ex: +0, -1 --}}
+                <label>{{localize attrDef}}</label> {{!-- Ex: Força, Destreza --}}
+                <input type="number" name="system.attributes.{{key}}.value" value="{{atributos.[key].value}}" placeholder="0"/>
+                <span class="attribute-mod">{{atributos.[key].mod}}</span> {{!-- Ex: +0, -1 --}}
             </div>
-            {{/unless}}
             {{/each}}
         </div>
     </header>
@@ -65,11 +63,11 @@
             <h3>Perícias:</h3>
             <ul class="skills-list">
                 {{!-- Iterando sobre as perícias puxadas do getData() --}}
-                {{#each pericias as |pericia id|}}
+                {{#each T20.pericias as |periciaDef id|}} {{!-- Itera sobre a definição T20.pericias --}}
                 <li class="skill-item">
-                    <label>{{localize pericia.label}}:</label> {{!-- Agora usa o label traduzido da perícia --}}
-                    <input type="number" name="system.skills.{{id}}.value" value="{{pericia.value}}" placeholder="0"/>
-                    (Mod: <span class="skill-mod">{{pericia.mod}}</span> | Bônus: <span class="skill-bonus">{{pericia.bonus}}</span>)
+                    <label>{{localize periciaDef.label}}:</label> {{!-- Agora usa o label traduzido da perícia --}}
+                    <input type="number" name="system.skills.{{id}}.value" value="{{pericias.[id].value}}" placeholder="0"/>
+                    (Mod: <span class="skill-mod">{{pericias.[id].mod}}</span> | Bônus: <span class="skill-bonus">{{pericias.[id].bonus}}</span>)
                 </li>
                 {{/each}}
             </ul>
@@ -95,8 +93,8 @@
 
             <h3>Resistências:</h3>
             <ul class="resistance-list">
-                {{#each caracteristicas.resistencias as |resistencia id|}}
-                <li><label>{{localize resistencia.label}}:</label> {{resistencia.value}}</li>
+                {{#each T20.resistencias as |resistenciaDef id|}}
+                <li><label>{{localize resistenciaDef}}:</label> {{caracteristicas.resistencias.[id].value}}</li>
                 {{/each}}
             </ul>
             <h3>Imunidades:</h3>
@@ -108,7 +106,7 @@
             <h3>Sentidos:</h3>
             <ul class="senses-list">
                 {{#each caracteristicas.sentidos as |sentido id|}}
-                <li><label>{{localize sentido.label}}:</label> {{sentido.value}}</li>
+                <li><label>{{localize sentido.label}}</label></li>
                 {{/each}}
             </ul>
         </div>
@@ -118,14 +116,18 @@
             <h2>Proficiências</h2>
             <h3>Armas:</h3>
             <ul class="prof-weapons-list">
-                {{#each proficiencias.armas as |arma id|}}
-                <li><label>{{localize arma.label}}</label></li>
+                {{#each T20.profArmas as |armaDef id|}}
+                {{#if proficiencias.armas.[id].value}} {{!-- Só mostra se for proficiente --}}
+                <li><label>{{localize armaDef}}</label></li>
+                {{/if}}
                 {{/each}}
             </ul>
             <h3>Armaduras:</h3>
             <ul class="prof-armor-list">
-                {{#each proficiencias.armaduras as |armadura id|}}
-                <li><label>{{localize armadura.label}}</label></li>
+                {{#each T20.profArmaduras as |armaduraDef id|}}
+                {{#if proficiencias.armaduras.[id].value}} {{!-- Só mostra se for proficiente --}}
+                <li><label>{{localize armaduraDef}}</label></li>
+                {{/if}}
                 {{/each}}
             </ul>
         </div>
