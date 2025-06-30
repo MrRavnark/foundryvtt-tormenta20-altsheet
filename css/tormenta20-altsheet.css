@@ -1,0 +1,194 @@
+/* Estilos iniciais para a ficha alternativa de Tormenta20 */
+/* Caminho: css/tormenta20-altsheet.css */
+
+/* Variáveis de cores padrão (Tema Claro - Default) */
+:root {
+    --t20as-color-primary: #4b4a44; /* Cor principal de texto/elementos escuros */
+    --t20as-color-secondary: #7a7971; /* Cor secundária */
+    --t20as-color-background: #c9c7b8; /* Cor de fundo principal (pergaminho claro) */
+    --t20as-color-header-bg: #b5b3a4; /* Cor de fundo do cabeçalho */
+    --t20as-color-border: #eeede0; /* Cor da borda */
+    --t20as-color-accent: #b52d34; /* Cor de destaque/ação (vermelho) */
+    --t20as-color-text-light: #191813; /* Cor de texto sobre fundo claro */
+    --t20as-color-input-bg: rgba(0, 0, 0, 0.05); /* Fundo de inputs */
+    --t20as-color-button-bg: rgba(0, 0, 0, 0.1); /* Fundo de botões */
+    --t20as-color-button-hover-bg: rgba(0, 0, 0, 0.2); /* Fundo de botões hover */
+    --t20as-color-box-shadow: rgba(0, 0, 0, 0.2); /* Sombra de caixas */
+    --t20as-color-rollable-hover: #4d8d9d; /* Hover de elementos roláveis */
+}
+
+/* Tema Escuro (ativado pela classe .theme-dark) */
+.tormenta20-altsheet.theme-dark {
+    --t20as-color-primary: #eee8df; /* Texto claro */
+    --t20as-color-secondary: #d7c4a9; /* Texto secundário */
+    --t20as-color-background: #0b0909; /* Fundo principal escuro */
+    --t20as-color-header-bg: #1c1a1a; /* Fundo do cabeçalho escuro */
+    --t20as-color-border: #3f3128; /* Borda escura */
+    --t20as-color-accent: #cf9356; /* Destaque laranja */
+    --t20as-color-text-light: #eee8df; /* Texto sobre fundo escuro */
+    --t20as-color-input-bg: rgba(28, 26, 26, 0.5);
+    --t20as-color-button-bg: rgba(28, 26, 26, 0.75);
+    --t20as-color-button-hover-bg: rgba(28, 26, 26, 0.9);
+    --t20as-color-box-shadow: rgba(0, 0, 0, 0.5);
+    --t20as-color-rollable-hover: #f36739;
+}
+
+/* Tema Claro (ativado pela classe .theme-light) */
+.tormenta20-altsheet.theme-light {
+    --t20as-color-primary: #000000;
+    --t20as-color-secondary: #0b0909;
+    --t20as-color-background: #cac5ba;
+    --t20as-color-header-bg: #a19b56;
+    --t20as-color-border: #938c9a;
+    --t20as-color-accent: #d74e14;
+    --t20as-color-text-light: #000000;
+    --t20as-color-input-bg: rgba(189, 189, 189, 0.15);
+    --t20as-color-button-bg: rgba(189, 189, 189, 0.3);
+    --t20as-color-button-hover-bg: rgba(189, 189, 189, 0.4);
+    --t20as-color-box-shadow: rgba(0, 0, 0, 0.1);
+    --t20as-color-rollable-hover: #5c9bab;
+}
+
+
+/* Estilos Gerais da Ficha */
+.tormenta20-altsheet.sheet {
+    font-family: "Signika", sans-serif;
+    color: var(--t20as-color-primary);
+    background: var(--t20as-color-background);
+    border: 1px solid var(--t20as-color-border);
+    border-radius: 5px;
+    overflow: hidden; /* Garante que o conteúdo não vaze */
+}
+
+/* Cabeçalho da Ficha */
+.tormenta20-altsheet .sheet-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    background: var(--t20as-color-header-bg);
+    border-bottom: 1px solid var(--t20as-color-border);
+}
+
+.tormenta20-altsheet .sheet-header .profile-img {
+    flex: 0 0 100px; /* Tamanho fixo para a imagem */
+    height: 100px;
+    margin-right: 15px;
+    border: 2px solid var(--t20as-color-border);
+    border-radius: 5px;
+    object-fit: cover; /* Garante que a imagem preencha o espaço */
+}
+
+.tormenta20-altsheet .sheet-header .header-details {
+    flex: 1; /* Ocupa o espaço restante */
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Espaço entre os elementos do cabeçalho */
+}
+
+.tormenta20-altsheet .sheet-header .charname input {
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--t20as-color-primary);
+    background: var(--t20as-color-input-bg);
+    border: 1px solid var(--t20as-color-border);
+    padding: 5px;
+    width: 100%;
+}
+
+.tormenta20-altsheet .sheet-header .summary input {
+    font-size: 0.9em;
+    color: var(--t20as-color-secondary);
+    background: var(--t20as-color-input-bg);
+    border: 1px solid var(--t20as-color-border);
+    padding: 3px;
+    margin-right: 5px;
+}
+
+/* Corpo da Ficha (abas e conteúdo) */
+.tormenta20-altsheet .sheet-body {
+    display: flex;
+    flex-direction: column; /* As abas e o conteúdo principal empilham */
+    height: calc(100% - 120px); /* Ajusta a altura considerando o cabeçalho */
+    padding: 10px;
+}
+
+.tormenta20-altsheet .sheet-body .sheet-tabs {
+    display: flex; /* As abas de navegação ficam em linha */
+    flex-direction: row; /* Coloca as abas horizontalmente por enquanto */
+    justify-content: flex-start;
+    align-items: flex-end; /* Alinha as abas na parte inferior */
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--t20as-color-border); /* Borda abaixo das abas */
+}
+
+.tormenta20-altsheet .sheet-body .sheet-tabs .item {
+    padding: 5px 15px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-bottom: none;
+    color: var(--t20as-color-secondary);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.tormenta20-altsheet .sheet-body .sheet-tabs .item.active {
+    background: var(--t20as-color-background);
+    border: 1px solid var(--t20as-color-border);
+    border-bottom: none;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: var(--t20as-color-primary);
+}
+
+.tormenta20-altsheet .sheet-body .sheet-tabs .item:hover {
+    color: var(--t20as-color-accent);
+}
+
+/* Conteúdo das Abas */
+.tormenta20-altsheet .sheet-body .tab {
+    flex: 1; /* Conteúdo da aba ocupa o espaço restante */
+    padding: 10px;
+    border: 1px solid var(--t20as-color-border);
+    border-radius: 5px;
+    background: var(--t20as-color-input-bg); /* Fundo leve para o conteúdo */
+    overflow-y: auto; /* Adiciona scroll se o conteúdo for grande */
+    display: none; /* Esconde todas as abas por padrão */
+}
+
+.tormenta20-altsheet .sheet-body .tab.active {
+    display: block; /* Mostra apenas a aba ativa */
+}
+
+/* Estilos para inputs em geral */
+.tormenta20-altsheet input[type="text"],
+.tormenta20-altsheet input[type="number"],
+.tormenta20-altsheet textarea {
+    background-color: var(--t20as-color-input-bg);
+    border: 1px solid var(--t20as-color-border);
+    color: var(--t20as-color-primary);
+    padding: 2px 5px;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.tormenta20-altsheet input[type="text"]:focus,
+.tormenta20-altsheet input[type="number"]:focus,
+.tormenta20-altsheet textarea:focus {
+    border-color: var(--t20as-color-accent);
+    box-shadow: 0 0 5px var(--t20as-color-rollable-hover);
+}
+
+.tormenta20-altsheet button {
+    background-color: var(--t20as-color-button-bg);
+    border: 1px solid var(--t20as-color-border);
+    color: var(--t20as-color-primary);
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.tormenta20-altsheet button:hover {
+    background-color: var(--t20as-color-button-hover-bg);
+    color: var(--t20as-color-accent);
+}
