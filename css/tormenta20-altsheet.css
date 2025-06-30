@@ -1,7 +1,7 @@
-/* Estilos iniciais para a ficha alternativa de Tormenta20 */
+/* Estilos para a ficha alternativa de Tormenta20 */
 /* Caminho: css/tormenta20-altsheet.css */
 
-/* Variáveis de cores padrão (Tema Claro - Default) */
+/* Variáveis de cores padrão (Tema Default - Original T20) */
 :root {
     --t20as-color-primary: #4b4a44; /* Cor principal de texto/elementos escuros */
     --t20as-color-secondary: #7a7971; /* Cor secundária */
@@ -15,6 +15,7 @@
     --t20as-color-button-hover-bg: rgba(0, 0, 0, 0.2); /* Fundo de botões hover */
     --t20as-color-box-shadow: rgba(0, 0, 0, 0.2); /* Sombra de caixas */
     --t20as-color-rollable-hover: #4d8d9d; /* Hover de elementos roláveis */
+    --t20as-font-family: "Signika", sans-serif;
 }
 
 /* Tema Escuro (ativado pela classe .theme-dark) */
@@ -24,34 +25,35 @@
     --t20as-color-background: #0b0909; /* Fundo principal escuro */
     --t20as-color-header-bg: #1c1a1a; /* Fundo do cabeçalho escuro */
     --t20as-color-border: #3f3128; /* Borda escura */
-    --t20as-color-accent: #cf9356; /* Destaque laranja */
+    --t20as-color-accent: #cf9356; /* Destaque laranja (Crucible) */
     --t20as-color-text-light: #eee8df; /* Texto sobre fundo escuro */
     --t20as-color-input-bg: rgba(28, 26, 26, 0.5);
     --t20as-color-button-bg: rgba(28, 26, 26, 0.75);
     --t20as-color-button-hover-bg: rgba(28, 26, 26, 0.9);
     --t20as-color-box-shadow: rgba(0, 0, 0, 0.5);
-    --t20as-color-rollable-hover: #f36739;
+    --t20as-color-rollable-hover: #f36739; /* Hover de elementos roláveis */
 }
 
 /* Tema Claro (ativado pela classe .theme-light) */
 .t20as-sheet.theme-light {
-    --t20as-color-primary: #000000;
-    --t20as-color-secondary: #0b0909;
-    --t20as-color-background: #cac5ba;
-    --t20as-color-header-bg: #a19b56;
-    --t20as-color-border: #938c9a;
-    --t20as-color-accent: #d74e14;
-    --t20as-color-text-light: #000000;
-    --t20as-color-input-bg: rgba(189, 189, 189, 0.15);
-    --t20as-color-button-bg: rgba(189, 189, 189, 0.3);
-    --t20as-color-button-hover-bg: rgba(189, 189, 189, 0.4);
-    --t20as-color-box-shadow: rgba(0, 0, 0, 0.1);
-    --t20as-color-rollable-hover: #5c9bab;
+    --t20as-color-primary: #000000; /* Texto preto */
+    --t20as-color-secondary: #555555; /* Texto cinza escuro */
+    --t20as-color-background: #f8f4f1; /* Fundo papel claro (D&D 5e) */
+    --t20as-color-header-bg: #e0d8cb; /* Fundo do cabeçalho mais claro */
+    --t20as-color-border: #b0a99c; /* Borda cinza médio */
+    --t20as-color-accent: #9f9275; /* Destaque dourado (D&D 5e) */
+    --t20as-color-text-light: #000000; /* Texto sobre fundo claro */
+    --t20as-color-input-bg: rgba(255, 255, 255, 0.5);
+    --t20as-color-button-bg: rgba(255, 255, 255, 0.7);
+    --t20as-color-button-hover-bg: rgba(255, 255, 255, 0.9);
+    --t20as-color-box-shadow: rgba(0, 0, 0, 0.15);
+    --t20as-color-rollable-hover: #ff6400; /* Destaque laranja */
 }
+
 
 /* Estilos Gerais da Ficha */
 .t20as-sheet.sheet {
-    font-family: "Signika", sans-serif; /* Certifique-se de que a fonte Signika esteja carregada no Foundry */
+    font-family: var(--t20as-font-family);
     color: var(--t20as-color-primary);
     background: var(--t20as-color-background);
     border: 2px solid var(--t20as-color-border);
@@ -59,7 +61,15 @@
     overflow: hidden;
     display: flex;
     flex-direction: column; /* Organiza cabeçalho e corpo em coluna */
+    box-shadow: 0 0 15px var(--t20as-color-box-shadow); /* Sombra para destacar a ficha */
 }
+
+/* Estilos para o window-content do Foundry (fundo da janela) */
+.t20as-sheet.app .window-content {
+    background: transparent !important; /* Remove o fundo padrão do Foundry */
+    border: none !important;
+}
+
 
 /* Cabeçalho da Ficha */
 .t20as-sheet .sheet-header {
@@ -148,6 +158,7 @@
     border: 1px solid var(--t20as-color-border);
     border-radius: 5px;
     background: var(--t20as-color-input-bg);
+    min-width: 80px; /* Garante largura mínima para boxes de atributo */
 }
 
 .t20as-sheet .attribute-box label {
