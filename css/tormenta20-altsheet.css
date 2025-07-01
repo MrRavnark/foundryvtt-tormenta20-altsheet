@@ -16,44 +16,74 @@
     --t20as-color-box-shadow: rgba(0, 0, 0, 0.2); /* Sombra de caixas */
     --t20as-color-rollable-hover: #4d8d9d; /* Hover de elementos roláveis */
     --t20as-font-family: "Signika", sans-serif;
+
+    /* Cores específicas para barras PV/PM */
+    --t20as-pv-fill: #20b2aa; /* Verde claro/água */
+    --t20as-pm-fill: #4682b4; /* Azul aço */
+    --t20as-bar-bg: #666; /* Fundo cinza para barras */
+
+    /* Cores para os hexágonos de Defesa */
+    --t20as-fortitude-color: #f7a400; /* Laranja */
+    --t20as-reflexo-color: #20b2aa; /* Verde claro */
+    --t20as-vontade-color: #4682b4; /* Azul */
 }
 
 /* Tema Escuro (ativado pela classe .theme-dark) */
 .t20as-sheet.theme-dark {
-    --t20as-color-primary: #eee8df; /* Texto claro */
-    --t20as-color-secondary: #d7c4a9; /* Texto secundário */
-    --t20as-color-background: #0b0909; /* Fundo principal escuro */
-    --t20as-color-header-bg: #1c1a1a; /* Fundo do cabeçalho escuro */
-    --t20as-color-border: #3f3128; /* Borda escura */
-    --t20as-color-accent: #cf9356; /* Destaque laranja (Crucible) */
-    --t20as-color-text-light: #eee8df; /* Texto sobre fundo escuro */
+    --t20as-color-primary: #eee8df; 
+    --t20as-color-secondary: #d7c4a9; 
+    --t20as-color-background: #0b0909; 
+    --t20as-color-header-bg: #1c1a1a; 
+    --t20as-color-border: #3f3128; 
+    --t20as-color-accent: #cf9356; 
+    --t20as-color-text-light: #eee8df; 
     --t20as-color-input-bg: rgba(28, 26, 26, 0.5);
     --t20as-color-button-bg: rgba(28, 26, 26, 0.75);
     --t20as-color-button-hover-bg: rgba(28, 26, 26, 0.9);
-    --t20as-color-box-shadow: rgba(0, 0, 0, 0.5);
-    --t20as-color-rollable-hover: #f36739; /* Hover de elementos roláveis */
+    --t20as-color-box-shadow: rgba(0, 0, 0, 0.7); 
+    --t20as-color-rollable-hover: #f36739; 
+
+    /* Cores específicas para barras PV/PM no tema Dark */
+    --t20as-pv-fill: #3c7f58; /* Verde escuro */
+    --t20as-pm-fill: #433754; /* Azul escuro */
+    --t20as-bar-bg: #000; /* Fundo preto para barras */
+
+    /* Cores para os hexágonos de Defesa no tema Dark */
+    --t20as-fortitude-color: #af6417; 
+    --t20as-reflexo-color: #2c3921; 
+    --t20as-vontade-color: #1a1a37; 
 }
 
 /* Tema Claro (ativado pela classe .theme-light) */
 .t20as-sheet.theme-light {
-    --t20as-color-primary: #000000; /* Texto preto */
-    --t20as-color-secondary: #555555; /* Texto cinza escuro */
-    --t20as-color-background: #f8f4f1; /* Fundo papel claro (D&D 5e) */
-    --t20as-color-header-bg: #e0d8cb; /* Fundo do cabeçalho mais claro */
-    --t20as-color-border: #b0a99c; /* Borda cinza médio */
-    --t20as-color-accent: #9f9275; /* Destaque dourado (D&D 5e) */
-    --t20as-color-text-light: #000000; /* Texto sobre fundo claro */
+    --t20as-color-primary: #000000; 
+    --t20as-color-secondary: #555555; 
+    --t20as-color-background: #f8f4f1; 
+    --t20as-color-header-bg: #e0d8cb; 
+    --t20as-color-border: #b0a99c; 
+    --t20as-color-accent: #9f9275; 
+    --t20as-color-text-light: #000000; 
     --t20as-color-input-bg: rgba(255, 255, 255, 0.5);
     --t20as-color-button-bg: rgba(255, 255, 255, 0.7);
     --t20as-color-button-hover-bg: rgba(255, 255, 255, 0.9);
-    --t20as-color-box-shadow: rgba(0, 0, 0, 0.15);
-    --t20as-color-rollable-hover: #ff6400; /* Destaque laranja */
+    --t20as-color-box-shadow: rgba(0, 0, 0, 0.3);
+    --t20as-color-rollable-hover: #ff6400; 
+
+    /* Cores específicas para barras PV/PM no tema Light */
+    --t20as-pv-fill: #51c433; 
+    --t20as-pm-fill: #776493; 
+    --t20as-bar-bg: #ccc; 
+
+    /* Cores para os hexágonos de Defesa no tema Light */
+    --t20as-fortitude-color: #ffaa00; 
+    --t20as-reflexo-color: #36c76c; 
+    --t20as-vontade-color: #8c76b9; 
 }
 
 
 /* Estilos Gerais da Ficha */
 .t20as-sheet.sheet {
-    font-family: var(--t20as-font-family);
+    font-family: var(--t20as-font-family); 
     color: var(--t20as-color-primary);
     background: var(--t20as-color-background);
     border: 2px solid var(--t20as-color-border);
@@ -61,20 +91,20 @@
     overflow: hidden;
     display: flex;
     flex-direction: column; /* Organiza cabeçalho e corpo em coluna */
-    box-shadow: 0 0 15px var(--t20as-color-box-shadow); /* Sombra para destacar a ficha */
+    box-shadow: 0 0 15px var(--t20as-color-box-shadow); 
 }
 
-/* Estilos para o window-content do Foundry (fundo da janela) */
 .t20as-sheet.app .window-content {
-    background: transparent !important; /* Remove o fundo padrão do Foundry */
+    background: transparent !important; 
     border: none !important;
+    display: flex; /* Para permitir que a form ocupe toda a janela */
+    flex-direction: column;
 }
-
 
 /* Cabeçalho da Ficha */
 .t20as-sheet .sheet-header {
     display: flex;
-    flex-direction: column; /* Header dividido em top e attributes */
+    flex-direction: column; 
     padding: 10px;
     background: var(--t20as-color-header-bg);
     border-bottom: 2px solid var(--t20as-color-border);
@@ -85,7 +115,7 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
-    gap: 15px; /* Espaço entre seções do header */
+    gap: 15px; 
     margin-bottom: 10px;
 }
 
@@ -122,13 +152,13 @@
 
 .t20as-sheet .summary-details {
     display: flex;
-    flex-wrap: wrap; /* Permite quebrar linha se não houver espaço */
+    flex-wrap: wrap; 
     gap: 10px;
 }
 
 .t20as-sheet .summary-details input {
-    flex: 1; /* Inputs ocupam espaço disponível */
-    min-width: 100px; /* Largura mínima para inputs de sumário */
+    flex: 1; 
+    min-width: 100px; 
     font-size: 0.9em;
     color: var(--t20as-color-secondary);
     background: var(--t20as-color-input-bg);
@@ -141,10 +171,10 @@
 .t20as-sheet .header-attributes {
     display: flex;
     flex-direction: row;
-    justify-content: space-around; /* Distribui os atributos */
+    justify-content: space-around; 
     align-items: center;
     width: 100%;
-    margin-top: 10px; /* Espaço entre top e attributes */
+    margin-top: 10px; 
     padding-top: 10px;
     border-top: 1px solid var(--t20as-color-border);
 }
@@ -158,7 +188,8 @@
     border: 1px solid var(--t20as-color-border);
     border-radius: 5px;
     background: var(--t20as-color-input-bg);
-    min-width: 80px; /* Garante largura mínima para boxes de atributo */
+    min-width: 80px; 
+    box-shadow: 0 0 3px var(--t20as-color-box-shadow);
 }
 
 .t20as-sheet .attribute-box label {
@@ -171,35 +202,162 @@
     font-size: 1.5em;
     width: 60px;
     text-align: center;
-    background: none; /* Remove fundo padrão do input-bg para o valor */
+    background: none; 
     border: none;
-    color: var(--t20as-color-accent); /* Destaque para valores */
+    color: var(--t20as-color-accent); 
 }
 .t20as-sheet .attribute-box.pv-pm input {
-    width: 40px; /* Menor para PV/PM */
+    width: 40px; 
 }
 .t20as-sheet .attribute-box.pv-pm span {
     font-size: 1.5em;
     color: var(--t20as-color-primary);
 }
-
-/* Corpo da Ficha (abas e conteúdo) */
-.t20as-sheet .sheet-body {
-    flex: 1; /* Ocupa o espaço restante da altura da ficha */
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    overflow: hidden; /* Gerencia o overflow do corpo */
+.t20as-sheet .attribute-box .attribute-mod {
+    font-size: 0.9em;
+    color: var(--t20as-color-secondary);
 }
 
+
+/* -- Estilos para Barras de PV/PM -- */
+.t20as-sheet .hp-mp-bar {
+    position: relative;
+    width: 100%; /* Largura da barra */
+    height: 25px; /* Altura da barra */
+    background-color: var(--t20as-bar-bg);
+    border: 1px solid var(--t20as-color-border);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza o texto */
+}
+
+.t20as-sheet .hp-mp-bar label {
+    position: absolute;
+    left: 10px;
+    font-weight: bold;
+    color: var(--t20as-color-text-light); /* Texto mais claro sobre barra */
+    z-index: 2; /* Acima do preenchimento */
+}
+
+.t20as-sheet .hp-mp-bar .current,
+.t20as-sheet .hp-mp-bar .max {
+    font-weight: bold;
+    color: var(--t20as-color-text-light);
+    z-index: 2;
+    font-size: 1.1em;
+}
+.t20as-sheet .hp-mp-bar span {
+    z-index: 2; /* Para o '/' aparecer sobre a barra */
+    color: var(--t20as-color-text-light);
+}
+
+.t20as-sheet .hp-mp-bar .bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: var(--t20as-pv-fill); /* Cor de preenchimento padrão */
+    z-index: 1; /* Abaixo do texto */
+    transition: width 0.3s ease-in-out; /* Animação suave */
+}
+.t20as-sheet .hp-mp-bar.pv-bar .bar-fill {
+    background-color: var(--t20as-pv-fill); /* Cor para PV */
+}
+.t20as-sheet .hp-mp-bar.mp-bar .bar-fill {
+    background-color: var(--t20as-pm-fill); /* Cor para PM */
+}
+
+/* -- Estilos para Defesas (Hexágonos) -- */
+.t20as-sheet .defenses-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--t20as-color-border);
+}
+
+.t20as-sheet .defense-hexagon {
+    position: relative;
+    width: 80px; /* Tamanho do hexágono */
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--t20as-color-input-bg);
+    border: 2px solid var(--t20as-color-border);
+    border-radius: 8px; /* Base para o hexágono */
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); /* Forma hexagonal */
+    box-shadow: 0 0 5px var(--t20as-color-box-shadow);
+    color: var(--t20as-color-primary);
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.t20as-sheet .defense-hexagon label {
+    font-size: 0.8em;
+    margin-bottom: 5px;
+    color: var(--t20as-color-secondary);
+}
+.t20as-sheet .defense-hexagon.fortitude { background-color: var(--t20as-fortitude-color); }
+.t20as-sheet .defense-hexagon.reflexo { background-color: var(--t20as-reflexo-color); }
+.t20as-sheet .defense-hexagon.vontade { background-color: var(--t20as-vontade-color); }
+
+.t20as-sheet .defense-hexagon .value {
+    font-size: 1.5em;
+    color: var(--t20as-color-text-light); /* Texto do valor mais claro */
+}
+
+/* Corpo da Ficha - Layout de 3 Colunas */
+.t20as-sheet .sheet-body.three-column-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr 250px; /* Coluna 1 (sidebar), Coluna 2 (main), Coluna 3 (right sidebar) */
+    gap: 15px;
+    padding: 15px;
+    height: calc(100% - 120px); /* Ajusta a altura */
+    overflow: hidden;
+}
+
+.t20as-sheet .left-sidebar,
+.t20as-sheet .right-sidebar {
+    background: var(--t20as-color-input-bg);
+    border: 1px solid var(--t20as-color-border);
+    border-radius: 8px;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.t20as-sheet .main-content-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow: hidden;
+}
+.t20as-sheet .main-content-column > div {
+    background: var(--t20as-color-input-bg);
+    border: 1px solid var(--t20as-color-border);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+
+/* Abas de Navegação (dentro da coluna principal) */
 .t20as-sheet .sheet-body .sheet-tabs {
     display: flex;
-    flex-direction: row; /* Abas horizontais por enquanto */
+    flex-direction: row; 
     justify-content: flex-start;
     align-items: flex-end;
-    margin-bottom: 10px;
-    border-bottom: 2px solid var(--t20as-color-border);
-    flex-wrap: wrap; /* Permite que as abas quebrem a linha se não houver espaço */
+    margin-bottom: 0; /* Removido para controle no tab-content */
+    border-bottom: none;
+    flex-wrap: wrap; 
+    background: transparent; /* Fundo transparente para as abas aqui */
+    padding: 0;
+    gap: 5px; /* Espaço entre as abas */
 }
 
 .t20as-sheet .sheet-body .sheet-tabs .item {
@@ -214,16 +372,16 @@
     text-transform: uppercase;
     font-size: 0.9em;
     background: var(--t20as-color-input-bg);
-    margin-right: 2px;
-    transition: all 0.2s ease-in-out; /* Transição suave */
+    margin-right: 0px; /* Removido margin-right padrão */
+    transition: all 0.2s ease-in-out; 
 }
 
 .t20as-sheet .sheet-body .sheet-tabs .item.active {
-    background: var(--t20as-color-background);
+    background: var(--t20as-color-background); /* Fundo da aba ativa */
     border-color: var(--t20as-color-accent);
-    border-bottom-color: var(--t20as-color-background); /* Esconde a borda inferior na aba ativa */
+    border-bottom-color: var(--t20as-color-background); 
     color: var(--t20as-color-primary);
-    box-shadow: inset 0 3px 0 var(--t20as-color-accent); /* Linha de destaque */
+    box-shadow: inset 0 3px 0 var(--t20as-color-accent); 
 }
 
 .t20as-sheet .sheet-body .sheet-tabs .item:hover {
@@ -232,18 +390,20 @@
 }
 
 /* Conteúdo das Abas */
-.t20as-sheet .sheet-body .tab {
-    flex: 1;
-    padding: 15px;
+.t20as-sheet .sheet-body .tab-content {
+    flex: 1; /* Ocupa o resto do espaço na coluna principal */
     border: 2px solid var(--t20as-color-border);
     border-radius: 8px;
     background: var(--t20as-color-input-bg);
     overflow-y: auto;
-    display: none; /* Esconde todas as abas por padrão */
+    padding: 15px;
+}
+.t20as-sheet .sheet-body .tab {
+    display: none; 
 }
 
 .t20as-sheet .sheet-body .tab.active {
-    display: block; /* Mostra apenas a aba ativa */
+    display: block; 
 }
 
 .t20as-sheet .sheet-body .tab h2 {
@@ -253,6 +413,60 @@
     padding-bottom: 5px;
     margin-bottom: 10px;
 }
+/* Estilos de listas de perícias, características etc */
+.t20as-sheet .skills-list,
+.t20as-sheet .resistance-list,
+.t20as-sheet .immunity-list,
+.t20as-sheet .senses-list,
+.t20as-sheet .prof-weapons-list,
+.t20as-sheet .prof-armor-list,
+.t20as-sheet .conditions-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.t20as-sheet .skill-item,
+.t20as-sheet .resistance-list li,
+.t20as-sheet .immunity-list li,
+.t20as-sheet .senses-list li,
+.t20as-sheet .prof-weapons-list li,
+.t20as-sheet .prof-armor-list li,
+.t20as-sheet .conditions-list li {
+    background: var(--t20as-color-background);
+    border: 1px solid var(--t20as-color-border);
+    border-radius: 4px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--t20as-color-primary);
+    font-size: 0.9em;
+    box-shadow: 0 0 3px var(--t20as-color-box-shadow);
+}
+.t20as-sheet .skill-item label,
+.t20as-sheet .resistance-list li label,
+.t20as-sheet .immunity-list li label,
+.t20as-sheet .senses-list li label,
+.t20as-sheet .prof-weapons-list li label,
+.t20as-sheet .prof-armor-list li label {
+    font-weight: bold;
+}
+.t20as-sheet .skill-item input {
+    width: 40px;
+    text-align: center;
+}
+.t20as-sheet .skill-mod, .t20as-sheet .skill-bonus {
+    color: var(--t20as-color-accent);
+    font-weight: bold;
+}
+.t20as-sheet .conditions-list li img {
+    margin-right: 5px;
+}
+
 
 /* Estilos para inputs em geral */
 .t20as-sheet input[type="text"],
