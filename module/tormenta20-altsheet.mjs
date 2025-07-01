@@ -23,6 +23,31 @@ class Tormenta20AltSheet extends ActorSheet {
     /**
      * Prepara os dados a serem enviados para o template HBS.
      */
+    // Código para o módulo JavaScript principal da ficha
+// Caminho: module/tormenta20-altsheet.mjs
+
+// Define a classe da sua ficha alternativa, estendendo a classe base ActorSheet do Foundry.
+// ActorSheet, Hooks, CONFIG, DocumentSheetConfig, Actor, ui.windows são objetos globais do Foundry VTT.
+// foundry.utils.mergeObject é a forma explícita de acessar mergeObject.
+
+class Tormenta20AltSheet extends ActorSheet {
+    /**
+     * Retorna as opções padrão da ficha.
+     */
+    static get defaultOptions() {
+        // Usa foundry.utils.mergeObject para maior compatibilidade.
+        return foundry.utils.mergeObject(super.defaultOptions, {
+            classes: ["t20as-sheet", "sheet", "actor"], // Alterado para t20as-sheet
+            template: "modules/tormenta20-altsheet/templates/tormenta20-altsheet.hbs",
+            width: 1000, // Largura total da ficha
+            height: 700, 
+            tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".tab-content", initial: "detalhes" }], // Content selector agora é .tab-content
+        });
+    }
+
+    /**
+     * Prepara os dados a serem enviados para o template HBS.
+     */
     getData() {
         const data = super.getData(); 
 
@@ -45,11 +70,12 @@ class Tormenta20AltSheet extends ActorSheet {
         const T20Config = globalThis.T20; 
         const T20Conditions = globalThis.T20Conditions;
 
-        // Detalhes do Personagem (Raça, Origem, Classe)
+        // Detalhes do Personagem (Raça, Origem, Classe, Divindade)
         data.detalhes = {
             raca: systemData.details?.raca?.value || "", 
             origem: systemData.details?.origem?.value || "",
-            classe: systemData.details?.classe?.value || "" 
+            classe: systemData.details?.classe?.value || "",
+            divindade: systemData.details?.divindade?.value || "" 
         };
 
         // Atributos (FOR, DES, CON, INT, SAB, CAR, PV, PM, Defesa)
@@ -67,28 +93,40 @@ class Tormenta20AltSheet extends ActorSheet {
         data.atributos.pm = systemData.attributes?.pm || { value: 0, max: 0 };
         data.atributos.defesa = systemData.attributes?.defesa || { value: 0 };
 
-        // Perícias
+        // Perícias (com labels e valores)
         data.pericias = {};
+        data.periciasDestacadas = {}; // Para Fortitude, Reflexo, Vontade
+        data.periciasRestantes = {}; // Para todas as outras
+
         for (const key in T20Config.pericias) { 
             const periciaDef = T20Config.pericias[key];
             const periciaData = systemData.skills?.[key] || {};
-            data.pericias[key] = {
+            const pericia = {
                 id: key, 
                 label: periciaDef.label, 
                 value: periciaData.value || 0,
                 mod: periciaData.mod || 0,
                 bonus: periciaData.bonus || 0 
             };
+
+            // Separa perícias destacadas das restantes
+            if (key === "fort" || key === "refl" || key === "vont") {
+                data.periciasDestacadas[key] = pericia;
+            } else {
+                data.periciasRestantes[key] = pericia;
+            }
+            data.pericias[key] = pericia; // Mantém a lista completa para outros usos
         }
 
         // Outras características (Tamanho, Deslocamento, Resistências, Imunidade, Sentidos)
         data.caracteristicas = {
             tamanho: systemData.details?.tamanho?.value || "", 
             deslocamento: systemData.attributes?.deslocamento?.value || "", 
-            resistencias: {},
+            resistencias: {}, // Fort, Refl, Vont (já puxadas em atributos, mas para a aba)
             imunidades: {},
-            sentidos: {}
+            sentidos: {} 
         };
+        // Resistências (Fortitude, Reflexos, Vontade - para a aba Características)
         for (const key in T20Config.resistencias) { 
             const resData = systemData.resistances?.[key] || {}; 
             data.caracteristicas.resistencias[key] = {
@@ -99,7 +137,6 @@ class Tormenta20AltSheet extends ActorSheet {
             };
         }
         // Imunidades
-        data.caracteristicas.imunidades = {};
         if (systemData.imunidades) {
             for (const key in systemData.imunidades) {
                 if (systemData.imunidades[key]?.value) { 
@@ -112,15 +149,16 @@ class Tormenta20AltSheet extends ActorSheet {
             }
         }
         // Sentidos
-        data.caracteristicas.sentidos = {};
-        for (const key in T20Config.senses) {
-            const senseData = systemData.senses?.[key] || false; 
-            if (senseData) {
-                data.caracteristicas.sentidos[key] = {
-                    id: key,
-                    label: T20Config.senses[key], 
-                    value: senseData.value || "" 
-                };
+        if (systemData.senses) {
+            for (const key in T20Config.senses) {
+                const senseData = systemData.senses?.[key] || false; 
+                if (senseData) {
+                    data.caracteristicas.sentidos[key] = {
+                        id: key,
+                        label: T20Config.senses[key], 
+                        value: senseData.value || "" 
+                    };
+                }
             }
         }
 
@@ -151,16 +189,17 @@ class Tormenta20AltSheet extends ActorSheet {
             }
         }
 
-        // Condições (usando T20Conditions) - Apenas listando as disponíveis, não as ativas no ator
+        // Condições (todas as possíveis, do T20Conditions)
         data.condicoes = {};
         for (const key in T20Conditions) {
             const conditionDef = T20Conditions[key];
             data.condicoes[key] = {
                 id: key,
-                name: conditionDef.name,
-                icon: conditionDef.icon
+                name: conditionDef.name, // Nome da condição (não traduzido aqui ainda)
+                icon: conditionDef.icon // Ícone da condição
             };
         }
+        // TODO: No futuro, você pode querer filtrar apenas as condições ATIVAS no ator.
 
         return data;
     }

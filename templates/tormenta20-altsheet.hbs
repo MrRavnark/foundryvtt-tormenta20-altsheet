@@ -2,60 +2,92 @@
     {{!-- Sheet Header --}}
     <header class="sheet-header">
         <div class="header-section header-top">
-            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+            <div class="profile-area"> {{!-- Área para imagem e outros elementos de perfil --}}
+                <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+                <span class="player-character-label">Personagem de Jogador</span> {{!-- Label estático --}}
+            </div>
             <div class="header-details">
                 <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Nome do Personagem"/></h1>
                 <div class="summary-details">
                     <input type="text" name="system.details.raca.value" value="{{detalhes.raca}}" placeholder="Raça"/>
                     <input type="text" name="system.details.origem.value" value="{{detalhes.origem}}" placeholder="Origem"/>
                     <input type="text" name="system.details.classe.value" value="{{detalhes.classe}}" placeholder="Classe"/>
+                    <input type="text" name="system.details.divindade.value" value="{{detalhes.divindade}}" placeholder="Divindade"/> {{!-- Campo Divindade --}}
                 </div>
             </div>
         </div>
 
-        <div class="header-section header-attributes">
-            {{!-- PV, PM, Defesa (ainda como inputs, mas estilizados) --}}
-            <div class="attribute-box pv-pm">
-                <label>PV</label>
-                <input type="number" name="system.attributes.pv.value" value="{{atributos.pv.value}}" placeholder="0"/>
-                <span>/</span>
-                <input type="number" name="system.attributes.pv.max" value="{{atributos.pv.max}}" placeholder="0"/>
+        {{!-- Atributos PV, PM, Defesa (mantidos no header, como na imagem) --}}
+        <div class="header-section header-resources-defenses">
+            <div class="resource-display-header">
+                <div class="attribute-box pv-pm">
+                    <label>PV</label>
+                    <input type="number" name="system.attributes.pv.value" value="{{atributos.pv.value}}" placeholder="0"/>
+                    <span>/</span>
+                    <input type="number" name="system.attributes.pv.max" value="{{atributos.pv.max}}" placeholder="0"/>
+                </div>
+                <div class="attribute-box pv-pm">
+                    <label>PM</label>
+                    <input type="number" name="system.attributes.pm.value" value="{{atributos.pm.value}}" placeholder="0"/>
+                    <span>/</span>
+                    <input type="number" name="system.attributes.pm.max" value="{{atributos.pm.max}}" placeholder="0"/>
+                </div>
+                <div class="attribute-box defense">
+                    <label>Defesa</label>
+                    <input type="number" name="system.attributes.defesa.value" value="{{atributos.defesa.value}}" placeholder="0"/>
+                </div>
             </div>
-             <div class="attribute-box pv-pm">
-                <label>PM</label>
-                <input type="number" name="system.attributes.pm.value" value="{{atributos.pm.value}}" placeholder="0"/>
-                <span>/</span>
-                <input type="number" name="system.attributes.pm.max" value="{{atributos.pm.max}}" placeholder="0"/>
-            </div>
-            <div class="attribute-box defense">
-                <label>Defesa</label>
-                <input type="number" name="system.attributes.defesa.value" value="{{atributos.defesa.value}}" placeholder="0"/>
-            </div>
-
-            {{!-- Atributos FOR, DES, CON, INT, SAB, CAR --}}
-            {{#each T20.atributos as |attrDef key|}} 
-            <div class="attribute-box simple-attribute">
-                <label>{{localize attrDef}}</label> 
-                <input type="number" name="system.attributes.{{key}}.value" value="{{atributos.[key].value}}" placeholder="0"/>
-                <span class="attribute-mod">{{atributos.[key].mod}}</span> 
-            </div>
-            {{/each}}
         </div>
     </header>
 
     {{!-- Sheet Body - Layout Principal de 3 Colunas --}}
     <section class="sheet-body three-column-layout">
-        {{!-- Coluna 1: Imagem (já no header), Equipamentos, Favoritos --}}
+        {{!-- Coluna 1: Atributos FOR-CAR, Defesa/CD Magias, Fort/Refl/Vont, Notas --}}
         <aside class="sheet-sidebar left-sidebar">
-            <h3>Equipamento / Ataques</h3>
-            <p>Lista de ataques e equipamentos aqui.</p>
-            <h3>Ações Favoritas</h3>
-            <p>Ações marcadas como favoritas aparecerão aqui.</p>
+            <h3>Atributos Principais</h3>
+            <div class="main-attributes-grid">
+                {{#each T20.atributos as |attrDef key|}} 
+                {{#unless (or (eq key "pv") (eq key "pm") (eq key "defesa"))}} 
+                <div class="attribute-box simple-attribute {{key}}"> {{!-- Adiciona classe com o ID para estilo específico --}}
+                    <label>{{localize attrDef}}</label> 
+                    <input type="number" name="system.attributes.{{key}}.value" value="{{atributos.[key].value}}" placeholder="0"/>
+                    <span class="attribute-mod">{{atributos.[key].mod}}</span> 
+                </div>
+                {{/unless}}
+                {{/each}}
+            </div>
+
+            <h3>Outras Defesas</h3>
+            <div class="other-defenses-block">
+                <div class="defense-result-box">
+                    <label>Defesa</label>
+                    <span class="value">{{atributos.defesa.value}}</span>
+                </div>
+                <div class="defense-result-box">
+                    <label>CD Magias</label>
+                    <span class="value">0</span> {{!-- Placeholder, CD de Magias precisa ser calculada --}}
+                </div>
+            </div>
+
+            <h3>Resistências Destacadas</h3>
+            <div class="defenses-section highlighted-defenses">
+                {{#each T20.resistencias as |resistenciaDef id|}}
+                <div class="defense-hexagon {{id}}"> 
+                    <label>{{localize resistenciaDef}}</label>
+                    <span class="value">{{caracteristicas.resistencias.[id].value}}</span>
+                </div>
+                {{/each}}
+            </div>
+
+            <h3>Notas</h3>
+            <div class="notes-block">
+                <textarea name="system.detalhes.notas.value" rows="5" placeholder="Suas notas gerais sobre o personagem..."></textarea> {{!-- Novo campo de notas --}}
+            </div>
         </aside>
 
-        {{!-- Coluna 2: PV/PM (barras), Defesas (Fortitude, Reflexo, Vontade), Recursos, Abas de Navegação, Conteúdo das Abas --}}
+        {{!-- Coluna 2: Barras PV/PM/Recursos, Botão Config Nível, Abas de Navegação, Conteúdo das Abas --}}
         <div class="main-content-column">
-            <div class="resource-display">
+            <div class="resource-bars-block">
                 {{!-- PV e PM como barras de vida/mana --}}
                 <div class="hp-mp-bar pv-bar">
                     <label>PV</label>
@@ -68,80 +100,48 @@
                     <div class="bar-fill" style="width: {{#if atributos.pm.max}}{{multiply (div atributos.pm.value atributos.pm.max) 100}}{{else}}0{{/if}}%;"></div>
                 </div>
 
-                {{!-- Recursos (placeholder, será elaborado depois) --}}
-                <h3>Recursos</h3>
-                <p>Espaço para recursos como ki, arcanum, etc.</p>
+                {{!-- Recursos (condicionalmente, como pips) --}}
+                <div class="resources-pips-block">
+                    <h3>Recursos</h3>
+                    <p>Ações: <span class="pips-example">●●●</span> Foco: <span class="pips-example">●●</span> Heroísmo: <span class="pips-example">○○○</span></p> {{!-- Placeholder visual para pips --}}
+                    <p>Será condicional e menor.</p>
+                </div>
             </div>
 
-            {{!-- Defesas (Fortitude, Reflexos, Vontade) - Hexágonos --}}
-            <div class="defenses-section">
-                {{#each T20.resistencias as |resistenciaDef id|}}
-                <div class="defense-hexagon {{id}}"> {{!-- Adiciona classe com o ID para estilo específico --}}
-                    <label>{{localize resistenciaDef}}</label>
-                    <span class="value">{{caracteristicas.resistencias.[id].value}}</span>
-                </div>
-                {{/each}}
-            </div>
+            {{!-- Botão Config Nível (placeholder) --}}
+            <button type="button" class="level-config-button">Configuração de Nível</button>
 
             {{!-- Abas de Navegação --}}
             <nav class="sheet-tabs tabs" data-group="primary">
-                <a class="item active" data-tab="detalhes">{{ localize "T20AS.CharacterSheetLabelDark" }}</a>
-                <a class="item" data-tab="inventario">{{ localize "PF1.Inventory" }}</a> 
+                <a class="item active" data-tab="favoritos">Favoritos</a> {{!-- Nova aba Favoritos --}}
+                <a class="item" data-tab="inventario">Inventário</a>
                 <a class="item" data-tab="poderes">Poderes</a>
-                <a class="item" data-tab="caracteristicas">Características</a>
-                <a class="item" data-tab="proficiencias">Proficiências</a>
-                <a class="item" data-tab="condicoes">Condições</a>
+                <a class="item" data-tab="magias">Magias</a> {{!-- Nova aba Magias --}}
+                <a class="item" data-tab="diario">Diário</a> {{!-- Nova aba Diário --}}
+                <a class="item" data-tab="condicoes-efeitos">Condições & Efeitos</a> {{!-- Nova aba para Condições e Efeitos --}}
             </nav>
 
             {{!-- Conteúdo das Abas --}}
             <div class="tab-content">
-                <div class="tab" data-group="primary" data-tab="detalhes">
-                    <h2>Detalhes do Personagem</h2>
-                    <p>O ID da ficha é: <strong>{{this.options.id}}</strong></p>
-                    <p>Classe do Tema Ativo: <strong>{{actor.system.activeThemeClass}}</strong></p>
-
-                    <h3>Perícias:</h3>
-                    <ul class="skills-list">
-                        {{#each T20.pericias as |periciaDef id|}} 
-                        <li class="skill-item">
-                            <label>{{localize periciaDef.label}}:</label>
-                            <input type="number" name="system.skills.{{id}}.value" value="{{pericias.[id].value}}" placeholder="0"/>
-                            (Mod: <span class="skill-mod">{{pericias.[id].mod}}</span> | Bônus: <span class="skill-bonus">{{pericias.[id].bonus}}</span>)
-                        </li>
-                        {{/each}}
-                    </ul>
-                </div>
-
-                <div class="tab" data-group="primary" data-tab="inventario">
-                    <h2>Inventário</h2>
-                    <p>Esta é a aba de inventário.</p>
-                    <p>Aqui você listará seus equipamentos, armas e itens.</p>
-                </div>
-
-                <div class="tab" data-group="primary" data-tab="poderes">
-                    <h2>Poderes e Habilidades</h2>
-                    <p>Esta é a aba de poderes.</p>
-                    <p>Aqui você listará seus talentos, magias e habilidades de classe/raça.</p>
-                </div>
-
-                <div class="tab" data-group="primary" data-tab="caracteristicas">
-                    <h2>Outras Características</h2>
+                <div class="tab" data-group="primary" data-tab="favoritos">
+                    <h2>Favoritos</h2>
+                    <h3>Características</h3>
                     <p>Tamanho: <input type="text" name="system.details.tamanho.value" value="{{caracteristicas.tamanho}}" placeholder="Médio"/></p>
                     <p>Deslocamento: <input type="text" name="system.attributes.deslocamento.value" value="{{caracteristicas.deslocamento}}" placeholder="9m"/></p>
 
-                    <h3>Resistências:</h3>
+                    <h4>Resistências:</h4>
                     <ul class="resistance-list">
                         {{#each caracteristicas.resistencias as |resistencia id|}}
                         <li><label>{{localize resistencia.label}}:</label> {{resistencia.value}}</li>
                         {{/each}}
                     </ul>
-                    <h3>Imunidades:</h3>
+                    <h4>Imunidades:</h4>
                     <ul class="immunity-list">
                         {{#each caracteristicas.imunidades as |imunidade id|}}
                         <li><label>{{localize imunidade.label}}:</label> {{imunidade.value}}</li>
                         {{/each}}
                     </ul>
-                    <h3>Sentidos:</h3>
+                    <h4>Sentidos:</h4>
                     <ul class="senses-list">
                         {{#each caracteristicas.sentidos as |sentido id|}}
                         <li><label>{{localize sentido.label}}</label></li>
@@ -149,27 +149,45 @@
                     </ul>
                 </div>
 
-                <div class="tab" data-group="primary" data-tab="proficiencias">
-                    <h2>Proficiências</h2>
-                    <h3>Armas:</h3>
-                    <ul class="prof-weapons-list">
-                        {{#each proficiencias.armas as |arma id|}}
-                        {{#if proficiencias.armas.[id].value}} 
-                        <li><label>{{localize arma.label}}</label></li>
-                        {{/if}}
-                        {{/each}}
-                    </ul>
-                    <h3>Armaduras:</h3>
-                    <ul class="prof-armor-list">
-                        {{#each proficiencias.armaduras as |armadura id|}}
-                        {{#if proficiencias.armaduras.[id].value}} 
-                        <li><label>{{localize armadura.label}}</label></li>
-                        {{/if}}
-                        {{/each}}
-                    </ul>
+                <div class="tab" data-group="primary" data-tab="inventario">
+                    <h2>Inventário</h2>
+                    <h3>Tibares:</h3>
+                    <p>TP: <input type="number" name="system.currency.tp.value" value="{{actor.system.currency.tp.value}}" placeholder="0"/> TO: <input type="number" name="system.currency.to.value" value="{{actor.system.currency.to.value}}" placeholder="0"/> T$: <input type="number" name="system.currency.ts.value" value="{{actor.system.currency.ts.value}}" placeholder="0"/> TC: <input type="number" name="system.currency.tc.value" value="{{actor.system.currency.tc.value}}" placeholder="0"/></p>
+                    <p>Esta é a aba de inventário.</p>
+                    <p>Aqui você listará seus equipamentos, armas e itens.</p>
                 </div>
 
-                <div class="tab" data-group="primary" data-tab="condicoes">
+                <div class="tab" data-group="primary" data-tab="poderes">
+                    <h2>Poderes e Habilidades</h2>
+                    <h3>Racial:</h3><p>Poderes Raciais aqui.</p>
+                    <h3>Origem:</h3><p>Poderes de Origem aqui.</p>
+                    <h3>Concedido:</h3><p>Poderes Concedidos aqui.</p>
+                    <h3>Habilidades de Classe:</h3><p>Habilidades de Classe aqui.</p>
+                    <h3>Classe:</h3><p>Poderes da Classe aqui.</p>
+                    <h3>Geral:</h3><p>Poderes Gerais aqui.</p>
+                    <h3>Distinção:</h3><p>Poderes de Distinção aqui.</p>
+                    <h3>Complicação:</h3><p>Complicações aqui.</p>
+                </div>
+
+                <div class="tab" data-group="primary" data-tab="magias">
+                    <h2>Magias</h2>
+                    <h3>Círculos de Magia:</h3>
+                    <p>Magias separadas por círculo aqui.</p>
+                </div>
+
+                <div class="tab" data-group="primary" data-tab="diario">
+                    <h2>Diário & Biografia</h2>
+                    <h3>Aparência:</h3><p>Altura: <input type="text" name="system.details.altura.value" value="{{actor.system.details.altura.value}}" placeholder=""/> Peso: <input type="text" name="system.details.peso.value" value="{{actor.system.details.peso.value}}" placeholder=""/></p>
+                    <p>Idade: <input type="number" name="system.details.idade.value" value="{{actor.system.details.idade.value}}" placeholder=""/></p>
+                    <h3>Biografia:</h3><textarea name="system.details.biography.value" rows="5"></textarea>
+                    <h3>Entrada de Diário:</h3><textarea name="system.details.diario.value" rows="5"></textarea>
+                    <h3>Pessoas Importantes:</h3><textarea name="system.details.diario1.value" rows="3"></textarea>
+                    <h3>Locais Importantes:</h3><textarea name="system.details.diario2.value" rows="3"></textarea>
+                    <h3>Missões:</h3><textarea name="system.details.diario3.value" rows="3"></textarea>
+                    <h3>Diversos:</h3><textarea name="system.details.diario4.value" rows="3"></textarea>
+                </div>
+
+                <div class="tab" data-group="primary" data-tab="condicoes-efeitos">
                     <h2>Condições</h2>
                     <ul class="conditions-list">
                         {{#each condicoes as |condicao id|}}
@@ -179,25 +197,26 @@
                         </li>
                         {{/each}}
                     </ul>
+                    <h2>Efeitos</h2>
+                    <p>Efeitos de uso, temporários, passivos, inativos, suprimidos aqui.</p>
                 </div>
             </div>
         </div>
 
-        {{!-- Coluna 3: Atributos FOR, DES, CON, INT, SAB, CAR (já no header, apenas estilizaremos aqui) --}}
+        {{!-- Coluna 3: Perícias (todas, exceto as 3 destacadas) --}}
         <aside class="sheet-sidebar right-sidebar">
-            <h3>Atributos</h3>
-            {{!-- Os atributos já estão no header, mas podemos duplicá-los aqui se o layout exigir --}}
-            {{!-- Ou podemos fazer um partial aqui que puxa os mesmos dados --}}
-            <p>Os atributos principais (FOR, DES, etc.) serão estilizados como hexágonos aqui.</p>
-            {{#each T20.atributos as |attrDef key|}} 
-            {{#unless (or (eq key "pv") (eq key "pm") (eq key "defesa"))}} 
-            <div class="attribute-hexagon {{key}}">
-                <label>{{localize attrDef}}</label> 
-                <span class="value">{{atributos.[key].value}}</span>
-                <span class="mod">{{atributos.[key].mod}}</span>
-            </div>
-            {{/unless}}
-            {{/each}}
+            <h3>Perícias</h3>
+            <ul class="skills-list full-skills-list">
+                {{#each T20.pericias as |periciaDef id|}} 
+                {{#unless (or (eq id "fort") (eq id "refl") (eq id "vont"))}} {{!-- Exclui as destacadas --}}
+                <li class="skill-item">
+                    <label>{{localize periciaDef.label}}:</label>
+                    <input type="number" name="system.skills.{{id}}.value" value="{{pericias.[id].value}}" placeholder="0"/>
+                    (Mod: <span class="skill-mod">{{pericias.[id].mod}}</span> | Bônus: <span class="skill-bonus">{{pericias.[id].bonus}}</span>)
+                </li>
+                {{/unless}}
+                {{/each}}
+            </ul>
         </aside>
     </section>
 </form>
