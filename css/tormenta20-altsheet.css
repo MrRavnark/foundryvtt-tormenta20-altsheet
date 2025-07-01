@@ -26,6 +26,14 @@
     --t20as-fortitude-color: #f7a400; /* Laranja */
     --t20as-reflexo-color: #20b2aa; /* Verde claro */
     --t20as-vontade-color: #4682b4; /* Azul */
+
+    /* Cores para os hexágonos de Atributos */
+    --t20as-for-color: #b52d34; /* Vermelho */
+    --t20as-des-color: #20b2aa; /* Verde */
+    --t20as-con-color: #f7a400; /* Laranja */
+    --t20as-int-color: #4682b4; /* Azul */
+    --t20as-sab-color: #8a2be2; /* Roxo */
+    --t20as-car-color: #e6b800; /* Amarelo */
 }
 
 /* Tema Escuro (ativado pela classe .theme-dark) */
@@ -44,14 +52,22 @@
     --t20as-color-rollable-hover: #f36739; 
 
     /* Cores específicas para barras PV/PM no tema Dark */
-    --t20as-pv-fill: #3c7f58; /* Verde escuro */
-    --t20as-pm-fill: #433754; /* Azul escuro */
-    --t20as-bar-bg: #000; /* Fundo preto para barras */
+    --t20as-pv-fill: #3c7f58; 
+    --t20as-pm-fill: #433754; 
+    --t20as-bar-bg: #000; 
 
     /* Cores para os hexágonos de Defesa no tema Dark */
     --t20as-fortitude-color: #af6417; 
     --t20as-reflexo-color: #2c3921; 
     --t20as-vontade-color: #1a1a37; 
+
+    /* Cores para os hexágonos de Atributos no tema Dark */
+    --t20as-for-color: #851414; 
+    --t20as-des-color: #236212; 
+    --t20as-con-color: #a98d0b; 
+    --t20as-int-color: #1a1a37; 
+    --t20as-sab-color: #3a184a; 
+    --t20as-car-color: #6a3510; 
 }
 
 /* Tema Claro (ativado pela classe .theme-light) */
@@ -78,6 +94,14 @@
     --t20as-fortitude-color: #ffaa00; 
     --t20as-reflexo-color: #36c76c; 
     --t20as-vontade-color: #8c76b9; 
+
+    /* Cores para os hexágonos de Atributos no tema Light */
+    --t20as-for-color: #d52727; 
+    --t20as-des-color: #51c433; 
+    --t20as-con-color: #f7a400; 
+    --t20as-int-color: #4848ac; 
+    --t20as-sab-color: #752f9f; 
+    --t20as-car-color: #a98d0b; 
 }
 
 
@@ -90,14 +114,14 @@
     border-radius: 8px;
     overflow: hidden;
     display: flex;
-    flex-direction: column; /* Organiza cabeçalho e corpo em coluna */
+    flex-direction: column; 
     box-shadow: 0 0 15px var(--t20as-color-box-shadow); 
 }
 
 .t20as-sheet.app .window-content {
     background: transparent !important; 
     border: none !important;
-    display: flex; /* Para permitir que a form ocupe toda a janela */
+    display: flex; 
     flex-direction: column;
 }
 
@@ -222,8 +246,8 @@
 /* -- Estilos para Barras de PV/PM -- */
 .t20as-sheet .hp-mp-bar {
     position: relative;
-    width: 100%; /* Largura da barra */
-    height: 25px; /* Altura da barra */
+    width: 100%; 
+    height: 25px; 
     background-color: var(--t20as-bar-bg);
     border: 1px solid var(--t20as-color-border);
     border-radius: 5px;
@@ -231,15 +255,15 @@
     overflow: hidden;
     display: flex;
     align-items: center;
-    justify-content: center; /* Centraliza o texto */
+    justify-content: center; 
 }
 
 .t20as-sheet .hp-mp-bar label {
     position: absolute;
     left: 10px;
     font-weight: bold;
-    color: var(--t20as-color-text-light); /* Texto mais claro sobre barra */
-    z-index: 2; /* Acima do preenchimento */
+    color: var(--t20as-color-text-light); 
+    z-index: 2; 
 }
 
 .t20as-sheet .hp-mp-bar .current,
@@ -250,7 +274,7 @@
     font-size: 1.1em;
 }
 .t20as-sheet .hp-mp-bar span {
-    z-index: 2; /* Para o '/' aparecer sobre a barra */
+    z-index: 2; 
     color: var(--t20as-color-text-light);
 }
 
@@ -259,15 +283,15 @@
     top: 0;
     left: 0;
     height: 100%;
-    background-color: var(--t20as-pv-fill); /* Cor de preenchimento padrão */
-    z-index: 1; /* Abaixo do texto */
-    transition: width 0.3s ease-in-out; /* Animação suave */
+    background-color: var(--t20as-pv-fill); 
+    z-index: 1; 
+    transition: width 0.3s ease-in-out; 
 }
 .t20as-sheet .hp-mp-bar.pv-bar .bar-fill {
-    background-color: var(--t20as-pv-fill); /* Cor para PV */
+    background-color: var(--t20as-pv-fill); 
 }
 .t20as-sheet .hp-mp-bar.mp-bar .bar-fill {
-    background-color: var(--t20as-pm-fill); /* Cor para PM */
+    background-color: var(--t20as-pm-fill); 
 }
 
 /* -- Estilos para Defesas (Hexágonos) -- */
@@ -284,7 +308,7 @@
 
 .t20as-sheet .defense-hexagon {
     position: relative;
-    width: 80px; /* Tamanho do hexágono */
+    width: 80px; 
     height: 80px;
     display: flex;
     flex-direction: column;
@@ -292,8 +316,8 @@
     justify-content: center;
     background: var(--t20as-color-input-bg);
     border: 2px solid var(--t20as-color-border);
-    border-radius: 8px; /* Base para o hexágono */
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); /* Forma hexagonal */
+    border-radius: 8px; 
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
     box-shadow: 0 0 5px var(--t20as-color-box-shadow);
     color: var(--t20as-color-primary);
     font-weight: bold;
@@ -304,14 +328,55 @@
     margin-bottom: 5px;
     color: var(--t20as-color-secondary);
 }
-.t20as-sheet .defense-hexagon.fortitude { background-color: var(--t20as-fortitude-color); }
-.t20as-sheet .defense-hexagon.reflexo { background-color: var(--t20as-reflexo-color); }
-.t20as-sheet .defense-hexagon.vontade { background-color: var(--t20as-vontade-color); }
+.t20as-sheet .defense-hexagon.fort { background-color: var(--t20as-fortitude-color); } /* Usar 'fort' do T20.resistencias */
+.t20as-sheet .defense-hexagon.refl { background-color: var(--t20as-reflexo-color); } /* Usar 'refl' do T20.resistencias */
+.t20as-sheet .defense-hexagon.vont { background-color: var(--t20as-vontade-color); } /* Usar 'vont' do T20.resistencias */
 
 .t20as-sheet .defense-hexagon .value {
     font-size: 1.5em;
-    color: var(--t20as-color-text-light); /* Texto do valor mais claro */
+    color: var(--t20as-color-text-light); 
 }
+
+/* Estilos para Atributos (Hexágonos da Coluna 3) */
+.t20as-sheet .attribute-hexagon {
+    position: relative;
+    width: 90px; /* Um pouco maior para atributos */
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--t20as-color-input-bg);
+    border: 2px solid var(--t20as-color-border);
+    border-radius: 8px; 
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+    box-shadow: 0 0 5px var(--t20as-color-box-shadow);
+    color: var(--t20as-color-primary);
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 10px; /* Espaço entre os hexágonos de atributo */
+}
+.t20as-sheet .attribute-hexagon label {
+    font-size: 0.8em;
+    margin-bottom: 5px;
+    color: var(--t20as-color-secondary);
+}
+.t20as-sheet .attribute-hexagon .value {
+    font-size: 1.8em;
+    color: var(--t20as-color-text-light);
+}
+.t20as-sheet .attribute-hexagon .mod {
+    font-size: 1em;
+    color: var(--t20as-color-accent);
+}
+/* Cores específicas para cada atributo */
+.t20as-sheet .attribute-hexagon.for { background-color: var(--t20as-for-color); }
+.t20as-sheet .attribute-hexagon.des { background-color: var(--t20as-des-color); }
+.t20as-sheet .attribute-hexagon.con { background-color: var(--t20as-con-color); }
+.t20as-sheet .attribute-hexagon.int { background-color: var(--t20as-int-color); }
+.t20as-sheet .attribute-hexagon.sab { background-color: var(--t20as-sab-color); }
+.t20as-sheet .attribute-hexagon.car { background-color: var(--t20as-car-color); }
+
 
 /* Corpo da Ficha - Layout de 3 Colunas */
 .t20as-sheet .sheet-body.three-column-layout {
@@ -330,7 +395,17 @@
     border-radius: 8px;
     padding: 10px;
     overflow-y: auto;
+    box-shadow: 0 0 5px var(--t20as-color-box-shadow);
 }
+.t20as-sheet .left-sidebar h3,
+.t20as-sheet .right-sidebar h3 {
+    font-size: 1.2em;
+    color: var(--t20as-color-accent);
+    border-bottom: 1px solid var(--t20as-color-secondary);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
 
 .t20as-sheet .main-content-column {
     display: flex;
@@ -343,6 +418,7 @@
     border: 1px solid var(--t20as-color-border);
     border-radius: 8px;
     padding: 10px;
+    box-shadow: 0 0 5px var(--t20as-color-box-shadow);
 }
 
 
@@ -352,12 +428,12 @@
     flex-direction: row; 
     justify-content: flex-start;
     align-items: flex-end;
-    margin-bottom: 0; /* Removido para controle no tab-content */
+    margin-bottom: 0; 
     border-bottom: none;
     flex-wrap: wrap; 
-    background: transparent; /* Fundo transparente para as abas aqui */
+    background: transparent; 
     padding: 0;
-    gap: 5px; /* Espaço entre as abas */
+    gap: 5px; 
 }
 
 .t20as-sheet .sheet-body .sheet-tabs .item {
@@ -372,12 +448,12 @@
     text-transform: uppercase;
     font-size: 0.9em;
     background: var(--t20as-color-input-bg);
-    margin-right: 0px; /* Removido margin-right padrão */
+    margin-right: 0px; 
     transition: all 0.2s ease-in-out; 
 }
 
 .t20as-sheet .sheet-body .sheet-tabs .item.active {
-    background: var(--t20as-color-background); /* Fundo da aba ativa */
+    background: var(--t20as-color-background); 
     border-color: var(--t20as-color-accent);
     border-bottom-color: var(--t20as-color-background); 
     color: var(--t20as-color-primary);
@@ -391,7 +467,7 @@
 
 /* Conteúdo das Abas */
 .t20as-sheet .sheet-body .tab-content {
-    flex: 1; /* Ocupa o resto do espaço na coluna principal */
+    flex: 1; 
     border: 2px solid var(--t20as-color-border);
     border-radius: 8px;
     background: var(--t20as-color-input-bg);
@@ -486,7 +562,7 @@
 .t20as-sheet textarea:focus {
     border-color: var(--t20as-color-accent);
     box-shadow: 0 0 5px var(--t20as-color-rollable-hover);
-    outline: none; /* Remove a borda de foco padrão do navegador */
+    outline: none; 
 }
 
 .t20as-sheet button {

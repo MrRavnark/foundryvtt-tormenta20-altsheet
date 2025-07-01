@@ -12,31 +12,6 @@ class Tormenta20AltSheet extends ActorSheet {
     static get defaultOptions() {
         // Usa foundry.utils.mergeObject para maior compatibilidade.
         return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ["tormenta20-altsheet", "sheet", "actor"],
-            template: "modules/tormenta20-altsheet/templates/tormenta20-altsheet.hbs",
-            width: 900,
-            height: 700,
-            tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes" }],
-        });
-    }
-
-    /**
-     * Prepara os dados a serem enviados para o template HBS.
-     */
-    // Código para o módulo JavaScript principal da ficha
-// Caminho: module/tormenta20-altsheet.mjs
-
-// Define a classe da sua ficha alternativa, estendendo a classe base ActorSheet do Foundry.
-// ActorSheet, Hooks, CONFIG, DocumentSheetConfig, Actor, ui.windows são objetos globais do Foundry VTT.
-// foundry.utils.mergeObject é a forma explícita de acessar mergeObject.
-
-class Tormenta20AltSheet extends ActorSheet {
-    /**
-     * Retorna as opções padrão da ficha.
-     */
-    static get defaultOptions() {
-        // Usa foundry.utils.mergeObject para maior compatibilidade.
-        return foundry.utils.mergeObject(super.defaultOptions, {
             classes: ["t20as-sheet", "sheet", "actor"], // Alterado para t20as-sheet
             template: "modules/tormenta20-altsheet/templates/tormenta20-altsheet.hbs",
             width: 1000, // Aumentar largura para o layout de 3 colunas
@@ -65,7 +40,7 @@ class Tormenta20AltSheet extends ActorSheet {
             data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes.default.cssClass;
         }
 
-        // --- Puxando dados do sistema Tormenta20 (FOCO AQUI!) ---
+        // --- Puxando dados do sistema Tormenta20 ---
         const systemData = data.actor.system; 
         const T20Config = globalThis.T20; 
         const T20Conditions = globalThis.T20Conditions;
@@ -114,8 +89,8 @@ class Tormenta20AltSheet extends ActorSheet {
             imunidades: {},
             sentidos: {}
         };
-        for (const key in T20Config.resistencias) { // Itera sobre fort, refl, vont
-            const resData = systemData.resistances?.[key] || {}; // Caminho mais comum para resistências é .resistances
+        for (const key in T20Config.resistencias) { 
+            const resData = systemData.resistances?.[key] || {}; 
             data.caracteristicas.resistencias[key] = {
                 id: key,
                 label: T20Config.resistencias[key],
@@ -127,7 +102,7 @@ class Tormenta20AltSheet extends ActorSheet {
         data.caracteristicas.imunidades = {};
         if (systemData.imunidades) {
             for (const key in systemData.imunidades) {
-                if (systemData.imunidades[key]?.value) {
+                if (systemData.imunidades[key]?.value) { 
                     data.caracteristicas.imunidades[key] = {
                         id: key,
                         label: systemData.imunidades[key].label || key, 

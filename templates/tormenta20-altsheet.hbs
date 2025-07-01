@@ -14,7 +14,7 @@
         </div>
 
         <div class="header-section header-attributes">
-            {{!-- PV, PM, Defesa --}}
+            {{!-- PV, PM, Defesa (ainda como inputs, mas estilizados) --}}
             <div class="attribute-box pv-pm">
                 <label>PV</label>
                 <input type="number" name="system.attributes.pv.value" value="{{atributos.pv.value}}" placeholder="0"/>
@@ -34,13 +34,11 @@
 
             {{!-- Atributos FOR, DES, CON, INT, SAB, CAR --}}
             {{#each T20.atributos as |attrDef key|}} 
-            {{#unless (or (eq key "pv") (eq key "pm") (eq key "defesa"))}} 
             <div class="attribute-box simple-attribute">
                 <label>{{localize attrDef}}</label> 
                 <input type="number" name="system.attributes.{{key}}.value" value="{{atributos.[key].value}}" placeholder="0"/>
                 <span class="attribute-mod">{{atributos.[key].mod}}</span> 
             </div>
-            {{/unless}}
             {{/each}}
         </div>
     </header>
@@ -55,19 +53,19 @@
             <p>Ações marcadas como favoritas aparecerão aqui.</p>
         </aside>
 
-        {{!-- Coluna 2: PV/PM (já no header), Defesas (Fortitude, Reflexo, Vontade), Recursos --}}
+        {{!-- Coluna 2: PV/PM (barras), Defesas (Fortitude, Reflexo, Vontade), Recursos, Abas de Navegação, Conteúdo das Abas --}}
         <div class="main-content-column">
             <div class="resource-display">
                 {{!-- PV e PM como barras de vida/mana --}}
                 <div class="hp-mp-bar pv-bar">
                     <label>PV</label>
                     <span class="current">{{atributos.pv.value}}</span> / <span class="max">{{atributos.pv.max}}</span>
-                    <div class="bar-fill" style="width: {{#if atributos.pv.max}}{{div atributos.pv.value atributos.pv.max}}{{else}}0{{/if}}%;"></div>
+                    <div class="bar-fill" style="width: {{#if atributos.pv.max}}{{multiply (div atributos.pv.value atributos.pv.max) 100}}{{else}}0{{/if}}%;"></div>
                 </div>
                 <div class="hp-mp-bar mp-bar">
                     <label>PM</label>
                     <span class="current">{{atributos.pm.value}}</span> / <span class="max">{{atributos.pm.max}}</span>
-                    <div class="bar-fill" style="width: {{#if atributos.pm.max}}{{div atributos.pm.value atributos.pm.max}}{{else}}0{{/if}}%;"></div>
+                    <div class="bar-fill" style="width: {{#if atributos.pm.max}}{{multiply (div atributos.pm.value atributos.pm.max) 100}}{{else}}0{{/if}}%;"></div>
                 </div>
 
                 {{!-- Recursos (placeholder, será elaborado depois) --}}
@@ -75,27 +73,27 @@
                 <p>Espaço para recursos como ki, arcanum, etc.</p>
             </div>
 
-            {{!-- Defesas (Fortitude, Reflexos, Vontade) --}}
+            {{!-- Defesas (Fortitude, Reflexos, Vontade) - Hexágonos --}}
             <div class="defenses-section">
                 {{#each T20.resistencias as |resistenciaDef id|}}
-                <div class="defense-hexagon">
+                <div class="defense-hexagon {{id}}"> {{!-- Adiciona classe com o ID para estilo específico --}}
                     <label>{{localize resistenciaDef}}</label>
                     <span class="value">{{caracteristicas.resistencias.[id].value}}</span>
                 </div>
                 {{/each}}
             </div>
 
-            {{!-- Abas de Navegação - Posicionadas aqui no layout Crucible --}}
+            {{!-- Abas de Navegação --}}
             <nav class="sheet-tabs tabs" data-group="primary">
                 <a class="item active" data-tab="detalhes">{{ localize "T20AS.CharacterSheetLabelDark" }}</a>
-                <a class="item" data-tab="inventario">{{ localize "PF1.Inventory" }}</a>
+                <a class="item" data-tab="inventario">{{ localize "PF1.Inventory" }}</a> 
                 <a class="item" data-tab="poderes">Poderes</a>
                 <a class="item" data-tab="caracteristicas">Características</a>
                 <a class="item" data-tab="proficiencias">Proficiências</a>
                 <a class="item" data-tab="condicoes">Condições</a>
             </nav>
 
-            {{!-- Conteúdo das Abas - Exibido aqui --}}
+            {{!-- Conteúdo das Abas --}}
             <div class="tab-content">
                 <div class="tab" data-group="primary" data-tab="detalhes">
                     <h2>Detalhes do Personagem</h2>
@@ -186,6 +184,20 @@
         </div>
 
         {{!-- Coluna 3: Atributos FOR, DES, CON, INT, SAB, CAR (já no header, apenas estilizaremos aqui) --}}
-        {{!-- Atributos estarão no header, mas estilizados como hexágonos --}}
+        <aside class="sheet-sidebar right-sidebar">
+            <h3>Atributos</h3>
+            {{!-- Os atributos já estão no header, mas podemos duplicá-los aqui se o layout exigir --}}
+            {{!-- Ou podemos fazer um partial aqui que puxa os mesmos dados --}}
+            <p>Os atributos principais (FOR, DES, etc.) serão estilizados como hexágonos aqui.</p>
+            {{#each T20.atributos as |attrDef key|}} 
+            {{#unless (or (eq key "pv") (eq key "pm") (eq key "defesa"))}} 
+            <div class="attribute-hexagon {{key}}">
+                <label>{{localize attrDef}}</label> 
+                <span class="value">{{atributos.[key].value}}</span>
+                <span class="mod">{{atributos.[key].mod}}</span>
+            </div>
+            {{/unless}}
+            {{/each}}
+        </aside>
     </section>
 </form>
