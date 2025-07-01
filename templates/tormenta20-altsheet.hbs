@@ -2,9 +2,9 @@
     {{!-- Sheet Header --}}
     <header class="sheet-header">
         <div class="header-section header-top">
-            <div class="profile-area"> {{!-- Área para imagem e outros elementos de perfil --}}
+            <div class="profile-area"> 
                 <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
-                <span class="player-character-label">Personagem de Jogador</span> {{!-- Label estático --}}
+                <span class="player-character-label">Personagem de Jogador</span> 
             </div>
             <div class="header-details">
                 <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Nome do Personagem"/></h1>
@@ -12,12 +12,12 @@
                     <input type="text" name="system.details.raca.value" value="{{detalhes.raca}}" placeholder="Raça"/>
                     <input type="text" name="system.details.origem.value" value="{{detalhes.origem}}" placeholder="Origem"/>
                     <input type="text" name="system.details.classe.value" value="{{detalhes.classe}}" placeholder="Classe"/>
-                    <input type="text" name="system.details.divindade.value" value="{{detalhes.divindade}}" placeholder="Divindade"/> {{!-- Campo Divindade --}}
+                    <input type="text" name="system.details.divindade.value" value="{{detalhes.divindade}}" placeholder="Divindade"/>
                 </div>
             </div>
         </div>
 
-        {{!-- Atributos PV, PM, Defesa (mantidos no header, como na imagem) --}}
+        {{!-- Atributos PV, PM, Defesa (ainda como inputs, mas estilizados) --}}
         <div class="header-section header-resources-defenses">
             <div class="resource-display-header">
                 <div class="attribute-box pv-pm">
@@ -26,7 +26,7 @@
                     <span>/</span>
                     <input type="number" name="system.attributes.pv.max" value="{{atributos.pv.max}}" placeholder="0"/>
                 </div>
-                <div class="attribute-box pv-pm">
+                 <div class="attribute-box pv-pm">
                     <label>PM</label>
                     <input type="number" name="system.attributes.pm.value" value="{{atributos.pm.value}}" placeholder="0"/>
                     <span>/</span>
@@ -48,7 +48,7 @@
             <div class="main-attributes-grid">
                 {{#each T20.atributos as |attrDef key|}} 
                 {{#unless (or (eq key "pv") (eq key "pm") (eq key "defesa"))}} 
-                <div class="attribute-box simple-attribute {{key}}"> {{!-- Adiciona classe com o ID para estilo específico --}}
+                <div class="attribute-box simple-attribute {{key}}"> 
                     <label>{{localize attrDef}}</label> 
                     <input type="number" name="system.attributes.{{key}}.value" value="{{atributos.[key].value}}" placeholder="0"/>
                     <span class="attribute-mod">{{atributos.[key].mod}}</span> 
@@ -65,7 +65,7 @@
                 </div>
                 <div class="defense-result-box">
                     <label>CD Magias</label>
-                    <span class="value">0</span> {{!-- Placeholder, CD de Magias precisa ser calculada --}}
+                    <span class="value">0</span> 
                 </div>
             </div>
 
@@ -81,7 +81,7 @@
 
             <h3>Notas</h3>
             <div class="notes-block">
-                <textarea name="system.detalhes.notas.value" rows="5" placeholder="Suas notas gerais sobre o personagem..."></textarea> {{!-- Novo campo de notas --}}
+                <textarea name="system.detalhes.notas.value" rows="5" placeholder="Suas notas gerais sobre o personagem..."></textarea> 
             </div>
         </aside>
 
@@ -103,7 +103,7 @@
                 {{!-- Recursos (condicionalmente, como pips) --}}
                 <div class="resources-pips-block">
                     <h3>Recursos</h3>
-                    <p>Ações: <span class="pips-example">●●●</span> Foco: <span class="pips-example">●●</span> Heroísmo: <span class="pips-example">○○○</span></p> {{!-- Placeholder visual para pips --}}
+                    <p>Ações: <span class="pips-example">●●●</span> Foco: <span class="pips-example">●●</span> Heroísmo: <span class="pips-example">○○○</span></p> 
                     <p>Será condicional e menor.</p>
                 </div>
             </div>
@@ -113,12 +113,12 @@
 
             {{!-- Abas de Navegação --}}
             <nav class="sheet-tabs tabs" data-group="primary">
-                <a class="item active" data-tab="favoritos">Favoritos</a> {{!-- Nova aba Favoritos --}}
+                <a class="item active" data-tab="favoritos">Favoritos</a> 
                 <a class="item" data-tab="inventario">Inventário</a>
                 <a class="item" data-tab="poderes">Poderes</a>
-                <a class="item" data-tab="magias">Magias</a> {{!-- Nova aba Magias --}}
-                <a class="item" data-tab="diario">Diário</a> {{!-- Nova aba Diário --}}
-                <a class="item" data-tab="condicoes-efeitos">Condições & Efeitos</a> {{!-- Nova aba para Condições e Efeitos --}}
+                <a class="item" data-tab="magias">Magias</a> 
+                <a class="item" data-tab="diario">Diário</a> 
+                <a class="item" data-tab="condicoes-efeitos">Condições & Efeitos</a> 
             </nav>
 
             {{!-- Conteúdo das Abas --}}
@@ -152,9 +152,66 @@
                 <div class="tab" data-group="primary" data-tab="inventario">
                     <h2>Inventário</h2>
                     <h3>Tibares:</h3>
-                    <p>TP: <input type="number" name="system.currency.tp.value" value="{{actor.system.currency.tp.value}}" placeholder="0"/> TO: <input type="number" name="system.currency.to.value" value="{{actor.system.currency.to.value}}" placeholder="0"/> T$: <input type="number" name="system.currency.ts.value" value="{{actor.system.currency.ts.value}}" placeholder="0"/> TC: <input type="number" name="system.currency.tc.value" value="{{actor.system.currency.tc.value}}" placeholder="0"/></p>
-                    <p>Esta é a aba de inventário.</p>
-                    <p>Aqui você listará seus equipamentos, armas e itens.</p>
+                    <div class="currency-inputs">
+                        <label>TP:</label><input type="number" name="system.currency.tp.value" value="{{inventario.moedas.tp}}" placeholder="0"/>
+                        <label>TO:</label><input type="number" name="system.currency.to.value" value="{{inventario.moedas.to}}" placeholder="0"/>
+                        <label>T$:</label><input type="number" name="system.currency.ts.value" value="{{inventario.moedas.ts}}" placeholder="0"/>
+                        <label>TC:</label><input type="number" name="system.currency.tc.value" value="{{inventario.moedas.tc}}" placeholder="0"/>
+                    </div>
+
+                    {{!-- Listas de Itens --}}
+                    <h3>Armas:</h3>
+                    <ul class="item-list weapons-list">
+                        {{#each inventario.armas as |arma|}}
+                        <li class="item flexrow" data-item-id="{{arma.id}}">
+                            <img class="item-img" src="{{arma.img}}" title="{{arma.name}}" width="24" height="24"/>
+                            <h4 class="item-name item-edit">{{arma.name}}</h4>
+                            <div class="item-controls">
+                                <a class="item-control item-edit" title="Editar Item"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" title="Deletar Item"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                    <h3>Equipamentos:</h3>
+                    <ul class="item-list equipments-list">
+                        {{#each inventario.equipamentos as |equipamento|}}
+                        <li class="item flexrow" data-item-id="{{equipamento.id}}">
+                            <img class="item-img" src="{{equipamento.img}}" title="{{equipamento.name}}" width="24" height="24"/>
+                            <h4 class="item-name item-edit">{{equipamento.name}}</h4>
+                            <div class="item-controls">
+                                <a class="item-control item-edit" title="Editar Item"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" title="Deletar Item"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                    <h3>Consumíveis:</h3>
+                    <ul class="item-list consumables-list">
+                        {{#each inventario.consumiveis as |consumivel|}}
+                        <li class="item flexrow" data-item-id="{{consumivel.id}}">
+                            <img class="item-img" src="{{consumivel.img}}" title="{{consumivel.name}}" width="24" height="24"/>
+                            <h4 class="item-name item-edit">{{consumivel.name}}</h4>
+                            <div class="item-controls">
+                                <a class="item-control item-edit" title="Editar Item"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" title="Deletar Item"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                    <h3>Itens e Tesouros:</h3>
+                    <ul class="item-list treasures-list">
+                        {{#each inventario.tesouros as |tesouro|}}
+                        <li class="item flexrow" data-item-id="{{tesouro.id}}">
+                            <img class="item-img" src="{{tesouro.img}}" title="{{tesouro.name}}" width="24" height="24"/>
+                            <h4 class="item-name item-edit">{{tesouro.name}}</h4>
+                            <div class="item-controls">
+                                <a class="item-control item-edit" title="Editar Item"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" title="Deletar Item"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
                 </div>
 
                 <div class="tab" data-group="primary" data-tab="poderes">
@@ -208,7 +265,7 @@
             <h3>Perícias</h3>
             <ul class="skills-list full-skills-list">
                 {{#each T20.pericias as |periciaDef id|}} 
-                {{#unless (or (eq id "fort") (eq id "refl") (eq id "vont"))}} {{!-- Exclui as destacadas --}}
+                {{#unless (or (eq id "fort") (eq id "refl") (eq id "vont"))}} 
                 <li class="skill-item">
                     <label>{{localize periciaDef.label}}:</label>
                     <input type="number" name="system.skills.{{id}}.value" value="{{pericias.[id].value}}" placeholder="0"/>

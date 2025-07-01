@@ -12,11 +12,11 @@ class Tormenta20AltSheet extends ActorSheet {
     static get defaultOptions() {
         // Usa foundry.utils.mergeObject para maior compatibilidade.
         return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ["t20as-sheet", "sheet", "actor"], // Alterado para t20as-sheet
+            classes: ["t20as-sheet", "sheet", "actor"], 
             template: "modules/tormenta20-altsheet/templates/tormenta20-altsheet.hbs",
-            width: 1000, // Aumentar largura para o layout de 3 colunas
+            width: 1000, 
             height: 700, 
-            tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".tab-content", initial: "detalhes" }], // Content selector agora é .tab-content
+            tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".tab-content", initial: "detalhes" }], 
         });
     }
 
@@ -25,7 +25,7 @@ class Tormenta20AltSheet extends ActorSheet {
      */
     getData() {
         const data = super.getData(); 
-        
+
         // --- Lógica para aplicar o tema ---
         let selectedThemeId = "default"; 
         if (this.options.id === "tormenta20-altsheet-dark") {
@@ -33,14 +33,14 @@ class Tormenta20AltSheet extends ActorSheet {
         } else if (this.options.id === "tormenta20-altsheet-light") {
             selectedThemeId = "light";
         }
-        
+
         if (CONFIG.tormenta20AltSheet && CONFIG.tormenta20AltSheet.themes && CONFIG.tormenta20AltSheet.themes[selectedThemeId]) {
             data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes[selectedThemeId].cssClass;
         } else {
             data.actor.system.activeThemeClass = CONFIG.tormenta20AltSheet.themes.default.cssClass;
         }
 
-        // --- Puxando dados do sistema Tormenta20 ---
+        // --- Puxando dados do sistema Tormenta20 (FOCO AQUI!) ---
         const systemData = data.actor.system; 
         const T20Config = globalThis.T20; 
         const T20Conditions = globalThis.T20Conditions;
@@ -67,12 +67,12 @@ class Tormenta20AltSheet extends ActorSheet {
         data.atributos.pv = systemData.attributes?.pv || { value: 0, max: 0 };
         data.atributos.pm = systemData.attributes?.pm || { value: 0, max: 0 };
         data.atributos.defesa = systemData.attributes?.defesa || { value: 0 };
-        
+
         // Perícias (com labels e valores)
         data.pericias = {};
-        data.periciasDestacadas = {}; // Para Fortitude, Reflexo, Vontade
-        data.periciasRestantes = {}; // Para todas as outras
-        
+        data.periciasDestacadas = {}; 
+        data.periciasRestantes = {}; 
+
         for (const key in T20Config.pericias) { 
             const periciaDef = T20Config.pericias[key];
             const periciaData = systemData.skills?.[key] || {};
@@ -83,25 +83,23 @@ class Tormenta20AltSheet extends ActorSheet {
                 mod: periciaData.mod || 0,
                 bonus: periciaData.bonus || 0 
             };
-            
-            // Separa perícias destacadas das restantes
+
             if (key === "fort" || key === "refl" || key === "vont") {
                 data.periciasDestacadas[key] = pericia;
             } else {
                 data.periciasRestantes[key] = pericia;
             }
-            data.pericias[key] = pericia; // Mantém a lista completa para outros usos
+            data.pericias[key] = pericia; 
         }
 
         // Outras características (Tamanho, Deslocamento, Resistências, Imunidade, Sentidos)
         data.caracteristicas = {
             tamanho: systemData.details?.tamanho?.value || "", 
             deslocamento: systemData.attributes?.deslocamento?.value || "", 
-            resistencias: {}, // Fort, Refl, Vont (já puxadas em atributos, mas para a aba)
+            resistencias: {},
             imunidades: {},
             sentidos: {} 
         };
-        // Resistências (Fortitude, Reflexos, Vontade - para a aba Características)
         for (const key in T20Config.resistencias) { 
             const resData = systemData.resistances?.[key] || {}; 
             data.caracteristicas.resistencias[key] = {
@@ -111,8 +109,6 @@ class Tormenta20AltSheet extends ActorSheet {
                 mod: resData.mod || 0 
             };
         }
-        // Imunidades
-        data.caracteristicas.imunidades = {};
         if (systemData.imunidades) {
             for (const key in systemData.imunidades) {
                 if (systemData.imunidades[key]?.value) { 
@@ -124,16 +120,16 @@ class Tormenta20AltSheet extends ActorSheet {
                 }
             }
         }
-        // Sentidos
-        data.caracteristicas.sentidos = {};
-        for (const key in T20Config.senses) {
-            const senseData = systemData.senses?.[key] || false; 
-            if (senseData) {
-                data.caracteristicas.sentidos[key] = {
-                    id: key,
-                    label: T20Config.senses[key], 
-                    value: senseData.value || "" 
-                };
+        if (systemData.senses) {
+            for (const key in T20Config.senses) {
+                const senseData = systemData.senses?.[key] || false; 
+                if (senseData) {
+                    data.caracteristicas.sentidos[key] = {
+                        id: key,
+                        label: T20Config.senses[key], 
+                        value: senseData.value || "" 
+                    };
+                }
             }
         }
 
@@ -170,12 +166,63 @@ class Tormenta20AltSheet extends ActorSheet {
             const conditionDef = T20Conditions[key];
             data.condicoes[key] = {
                 id: key,
-                name: conditionDef.name, // Nome da condição (não traduzido aqui ainda)
-                icon: conditionDef.icon // Ícone da condição
+                name: conditionDef.name, 
+                icon: conditionDef.icon
             };
         }
-        // TODO: No futuro, você pode querer filtrar apenas as condições ATIVAS no ator.
-        
+
+        // --- Puxando e categorizando ITENS (FOCO DO INVENTÁRIO!) ---
+        data.inventario = {
+            armas: [],
+            equipamentos: [],
+            consumiveis: [],
+            tesouros: [], // para loot, joias, etc.
+            moedas: {
+                tp: systemData.currency?.tp?.value || 0,
+                to: systemData.currency?.to?.value || 0,
+                ts: systemData.currency?.ts?.value || 0,
+                tc: systemData.currency?.tc?.value || 0
+            }
+        };
+
+        // Categoriza os itens do ator com base no tipo
+        for (let item of data.actor.items) { // data.actor.items é a coleção de itens do ator
+            const itemData = item.system; // Ou item.data.data em versões mais antigas do Foundry
+            const itemType = item.type; // Ex: "arma", "equipamento", "consumivel", "tesouro"
+
+            const displayItem = {
+                id: item.id,
+                name: item.name,
+                img: item.img,
+                type: itemType,
+                quantity: itemData.quantidade?.value || 0, // Ou .qtd
+                esp: itemData.espaco?.value || 0, // Ou .peso, .space
+                // Adicione outras propriedades importantes que você quer exibir, como dano da arma, etc.
+                dano: itemData.dano?.value || "",
+                critico: itemData.critico?.value || "",
+                // Exemplo de como pegar o tipo de arma para o label
+                tipoArma: itemData.tipo?.value ? T20Config.weaponTypes[itemData.tipo.value] : "",
+            };
+
+            switch (itemType) {
+                case "arma":
+                    data.inventario.armas.push(displayItem);
+                    break;
+                case "equipamento":
+                    data.inventario.equipamentos.push(displayItem);
+                    break;
+                case "consumivel":
+                    data.inventario.consumiveis.push(displayItem);
+                    break;
+                case "tesouro": // Assumindo que loot/tesouro é um tipo 'tesouro'
+                    data.inventario.tesouros.push(displayItem);
+                    break;
+                default:
+                    // console.log(`Item type not categorized: ${itemType}`);
+                    break;
+            }
+        }
+
         return data;
     }
 
@@ -185,15 +232,51 @@ class Tormenta20AltSheet extends ActorSheet {
     activateListeners(html) {
         super.activateListeners(html); 
 
-        // Exemplo de como adicionar um listener de evento:
-        // html.find('.my-button-class').click(this._onMyButtonClick.bind(this));
+        // Ativar drag and drop para itens
+        // Por padrão, ActorSheet já tem um _onDrop básico para itens e compendium.
+        // Se ele não estiver funcionando, pode ser necessário sobrescrever _onDrop
+        // ou garantir que o formulário é tratável para drag and drop.
+        // No entanto, super.activateListeners(html) já deveria configurar isso.
+
+        // Exemplo de como ativar a troca de abas manualmente (se o data-tabs não funcionar)
+        const tabs = new Tabs({
+            navSelector: ".sheet-tabs",
+            contentSelector: ".tab-content", // Seletor correto para o conteúdo das abas
+            initial: this.options.initialTab || "detalhes",
+            callback: (selector, html) => {
+                this.setPosition({ height: "auto" }); // Ajusta a altura da ficha
+            }
+        });
+        tabs.bind(html);
+
+
+        // Adicionar listeners para botões de abrir item, deletar, etc.
+        html.find('.item-edit').click(ev => {
+            const li = $(ev.currentTarget).parents(".item");
+            const item = this.actor.items.get(li.data("itemId"));
+            item.sheet.render(true);
+        });
+
+        html.find('.item-delete').click(ev => {
+            const li = $(ev.currentTarget).parents(".item");
+            this.actor.deleteEmbeddedDocuments("Item", [li.data("itemId")]);
+            li.slideUp(200, () => this.render(false));
+        });
+
+        // Adicione listeners para drag-and-drop customizado, se o padrão falhar
+        // this.form.addEventListener("dragover", ev => this._onDragOver(ev));
+        // this.form.addEventListener("drop", ev => this._onDrop(ev));
     }
 
-    // Exemplo de método de callback para um listener
-    // _onMyButtonClick(event) {
+    // --- Adicione aqui métodos customizados para drag-and-drop se necessário ---
+    // _onDragOver(event) {
     //     event.preventDefault();
-    //     console.log("Botão clicado!");
-    //     // Adicione sua lógica aqui
+    //     // Adicionar classes visuais para feedback de drag
+    // }
+
+    // _onDrop(event) {
+    //     super._onDrop(event); // Chamar o método padrão para manter funcionalidade
+    //     // Adicionar lógica customizada pós-drop se necessário
     // }
 }
 
@@ -203,11 +286,7 @@ Hooks.once("init", () => {
 
     const templatePaths = [
         "modules/tormenta20-altsheet/templates/tormenta20-altsheet.hbs",
-        // Adicione aqui os caminhos para seus parciais, como:
-        // "modules/tormenta20-altsheet/templates/parts/header.hbs",
-        // "modules/tormenta20-altsheet/templates/parts/attributes.hbs",
-        // "modules/tormenta20-altsheet/templates/parts/skills.hbs",
-        // ... etc.
+        // Adicione aqui os caminhos para seus parciais
     ];
 
     loadTemplates(templatePaths);
@@ -230,28 +309,6 @@ Hooks.once("init", () => {
         },
     };
 
-    // TODO: Registre as configurações do módulo aqui (para seleção de tema, etc.)
-    // game.settings.register("tormenta20-altsheet", "sheetTheme", {
-    //     name: "T20AS.SettingTheme",
-    //     hint: "T20AS.SettingThemeHint",
-    //     scope: "client",
-    //     config: true,
-    //     type: String,
-    //     choices: Object.entries(CONFIG.tormenta20AltSheet.themes).reduce((obj, [key, value]) => {
-    //         obj[key] = value.label;
-    //         return obj;
-    //     }, {}),
-    //     default: "default",
-    //     onChange: (value) => {
-    //         // Força a re-renderização das fichas abertas ao mudar o tema
-    //         for (const app of Object.values(ui.windows)) {
-    //             if (app instanceof ActorSheet && app.actor.sheet.id === "tormenta20-altsheet") { // Verifica se é a sua ficha
-    //                 app.render(true);
-    //             }
-    //         }
-    //     },
-    // });
-
     console.log("tormenta20-altsheet | Módulo de Ficha Alternativa carregado.");
 });
 
@@ -259,26 +316,17 @@ Hooks.once("init", () => {
 Hooks.on("ready", () => {
     console.log("tormenta20-altsheet | Registrando Fichas de Ator.");
 
-    // Registra a ficha para o tema DARK
     DocumentSheetConfig.registerSheet(Actor, "tormenta20-altsheet-dark", Tormenta20AltSheet, {
         label: "T20AS.CharacterSheetLabelDark",
         types: ["character"],
         makeDefault: false, 
     });
 
-    // Registra a ficha para o tema LIGHT
     DocumentSheetConfig.registerSheet(Actor, "tormenta20-altsheet-light", Tormenta20AltSheet, {
         label: "T20AS.CharacterSheetLabelLight",
         types: ["character"],
         makeDefault: false, 
     });
-
-    // Exemplo: Registra a ficha alternativa para NPCs
-    // DocumentSheetConfig.registerSheet(Actor, "tormenta20-altsheet-npc", Tormenta20AltSheetNPC, {
-    //     label: "T20AS.NPCSheetLabel",
-    //     types: ["npc"],
-    //     makeDefault: false,
-    // });
 
     DocumentSheetConfig.updateDefaultSheets();
 

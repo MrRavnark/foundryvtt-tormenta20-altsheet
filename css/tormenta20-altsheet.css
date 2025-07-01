@@ -146,12 +146,12 @@
 }
 /* Header - Imagem e Dados Principais */
 .t20as-sheet .profile-area {
-    flex: 0 0 20%; /* 1/5 da largura do cabeçalho */
+    flex: 0 0 20%; 
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 5px;
-    max-width: 150px; /* Limite para a imagem */
+    max-width: 150px; 
 }
 .t20as-sheet .profile-img {
     width: 100%;
@@ -259,7 +259,7 @@
 .t20as-sheet .hp-mp-bar {
     position: relative;
     width: 100%; 
-    height: 35px; /* Aumentar a altura da barra para caber o texto */
+    height: 35px; 
     background-color: var(--t20as-bar-bg);
     border: 2px solid var(--t20as-color-border);
     border-radius: 5px;
@@ -267,26 +267,26 @@
     overflow: hidden;
     display: flex;
     align-items: center;
-    justify-content: center; /* Centraliza o texto */
+    justify-content: center; 
     font-family: var(--t20as-font-family);
     font-weight: bold;
-    color: var(--t20as-color-text-light); /* Cor do texto padrão da barra */
+    color: var(--t20as-color-text-light); 
 }
 
 .t20as-sheet .hp-mp-bar label {
     position: absolute;
     left: 10px;
-    font-size: 1.2em; /* Tamanho do label (PV/PM) */
+    font-size: 1.2em; 
     color: var(--t20as-color-text-light); 
     z-index: 2; 
 }
 
 .t20as-sheet .hp-mp-bar .current,
 .t20as-sheet .hp-mp-bar .max {
-    font-size: 1.5em; /* Tamanho dos números */
+    font-size: 1.5em; 
     z-index: 2; 
 }
-.t20as-sheet .hp-mp-bar span { /* para o '/' */
+.t20as-sheet .hp-mp-bar span { 
     font-size: 1.5em;
     z-index: 2; 
 }
@@ -320,7 +320,7 @@
 }
 
 .t20as-sheet .defense-hexagon,
-.t20as-sheet .attribute-hexagon { /* Reutiliza estilo base para hexágonos */
+.t20as-sheet .attribute-hexagon { 
     position: relative;
     width: 80px; 
     height: 80px;
@@ -336,7 +336,7 @@
     color: var(--t20as-color-primary);
     font-weight: bold;
     font-size: 1.2em;
-    text-align: center; /* Centraliza texto dentro do hexágono */
+    text-align: center; 
 }
 .t20as-sheet .defense-hexagon label,
 .t20as-sheet .attribute-hexagon label {
@@ -357,13 +357,13 @@
 /* -- Estilos para Atributos (Hexágonos da Coluna 1) -- */
 .t20as-sheet .main-attributes-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 colunas para FOR DES CON */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 10px;
     margin-top: 10px;
 }
 .t20as-sheet .main-attributes-grid .attribute-box.simple-attribute {
-    border: none; /* Remove borda da caixa padrão, o hexágono terá sua própria borda */
-    background: transparent; /* Remove fundo da caixa padrão */
+    border: none; 
+    background: transparent; 
     box-shadow: none;
     min-width: auto;
     padding: 0;
@@ -371,18 +371,18 @@
 /* Reutiliza o estilo de hexágono para os atributos */
 .t20as-sheet .main-attributes-grid .attribute-box.simple-attribute > label {
     position: absolute;
-    top: 5px; /* Posição do label no hexágono */
+    top: 5px; 
     font-size: 0.7em;
     color: var(--t20as-color-secondary);
 }
-.t20as-sheet .main-attributes-grid .attribute-box.simple-attribute input { /* Valor base */
+.t20as-sheet .main-attributes-grid .attribute-box.simple-attribute input { 
     font-size: 1.5em;
     color: var(--t20as-color-text-light);
     background: transparent;
     border: none;
     width: auto;
 }
-.t20as-sheet .main-attributes-grid .attribute-box.simple-attribute .attribute-mod { /* Modificador */
+.t20as-sheet .main-attributes-grid .attribute-box.simple-attribute .attribute-mod { 
     position: absolute;
     bottom: 5px;
     font-size: 0.9em;
@@ -398,7 +398,7 @@
     border-radius: 8px;
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     box-shadow: 0 0 5px var(--t20as-color-box-shadow);
-    z-index: -1; /* Fundo do hexágono */
+    z-index: -1; 
 }
 /* Cores específicas para atributos */
 .t20as-sheet .main-attributes-grid .attribute-box.for::before { background-color: var(--t20as-for-color); }
@@ -412,7 +412,7 @@
 /* -- Colunas do Layout Principal -- */
 .t20as-sheet .sheet-body.three-column-layout {
     display: grid;
-    grid-template-columns: 280px 1fr 280px; /* Coluna 1 (sidebar esquerda - mais larga), Coluna 2 (principal), Coluna 3 (sidebar direita - mais larga) */
+    grid-template-columns: 280px 1fr 280px; 
     gap: 15px;
     padding: 15px;
     height: calc(100% - 120px); 
@@ -501,9 +501,9 @@
     align-items: center;
     gap: 5px;
     padding: 10px;
-    border: 1px dashed var(--t20as-color-secondary); /* Borda para bloco condicional */
+    border: 1px dashed var(--t20as-color-secondary); 
     border-radius: 5px;
-    background: var(--t20as-color-background); /* Fundo para pips */
+    background: var(--t20as-color-background); 
 }
 .t20as-sheet .resources-pips-block h3 {
     font-size: 1em;
